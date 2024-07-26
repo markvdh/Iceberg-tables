@@ -88,4 +88,13 @@ There are four configs within the **Node Properties** group.
   
 <h1 id="code">Code</h1>
 
+## Snowflake Iceberg table
+
+* [Node definition]()
+* [Create Template]()
+
+## External Iceberg table
+
+* [Node definition]()
+* [Create Template]()
 
