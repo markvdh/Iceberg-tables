@@ -1,6 +1,6 @@
 fileVersion: 1
 id: de396114-95bd-494c-9f6d-4a880f0526c3
-name: ICT_LINEITEMEX1
+name: ICT_LINEITEMEX12
 operation:
   config:
     basename: EXLINEIEM
@@ -258,9 +258,9 @@ operation:
             nodeName: LINEITEM
         join:
           joinCondition: FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
-        name: ICT_LINEITEMEX1
+        name: ICT_LINEITEMEX12
         noLinkRefs: []
-  name: ICT_LINEITEMEX1
+  name: ICT_LINEITEMEX12
   overrideSQL: false
   schema: ""
   sqlType: "305"
