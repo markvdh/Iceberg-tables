@@ -34,6 +34,13 @@ There are four configs within the **Node Properties** group.
 
 <h3 id="snowflake-iceberg-table-options">Iceberg Options</h3>
 
+* **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format.[External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in snowflake as a prerequisite.
+* **Base location name**: The path to a directory where Snowflake can write data and metadata files for the table. Specify a relative path from the table’s EXTERNAL_VOLUME location. 
+* **Cluster key**: True/False to determine whether the Iceberg table is to be clustered or not
+  * True -Allows you to specify the column based on which clustering is to be done.
+            -Allow Expressions Cluster Key-True ->allows to add an expression to the specified cluster key
+  * False – No clustering done
+    
 <h2 id="external-iceberg-table">External Iceberg table</h2>
 
 An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats.[Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
