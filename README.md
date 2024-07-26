@@ -46,7 +46,36 @@ There are four configs within the **Node Properties** group.
  * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
  * An EXTERNAL VOLUME is expected to be created in Snowflake at the Storage Location chosen in the Node properties
  * In case of creating a snowflake iceberg table with structured column type like OBJECT,MAP or ARRAY.Ensure the data type is updated with the appropriate structure.For example,the source snowflake table has OBJECT data type,then the datat type of the same column in the iceberg table node added on top is expected to structured type OBJECT(age string,id number) based on the data it has.
-    
+
+### Snowflake Iceberg table Initial Deployment
+
+When deployed for the first time into an environment the Dynamic Table Latest Record Version node will execute the below stage:
+
+* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Dynamic Table in the target environment.
+
+### Snowflake Iceberg table Redeployment
+
+
+#### Recreating a Snowflake Iceberg table
+
+If any changes in config options like external volume,baselocation ,node properties ,column  results in recreating iceberg table during redeployment
+
+* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Dynamic Table in the target environment.
+
+###  Alter structured data type
+
+Changes in structured data type columns excluding any other config changes results in alter statements execution.
+
+* **Alter structured data type in Iceberg Table**:
+
+###  Snowflake Iceberg table Undeployment
+
+If a snowflake iceberg table is dropped from the workspace and commited to GIT results in table dropped from target environment.
+
+This is executed as a single stage:
+
+* **Drop Iceberg Table**
+  
 <h2 id="external-iceberg-table">External Iceberg table</h2>
 
 An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats.[Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
