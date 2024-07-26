@@ -119,6 +119,26 @@ There are four configs within the **Node Properties** group.
  
  * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
  * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
+
+ ### External Iceberg table Initial Deployment
+
+When deployed for the first time into an environment the Dynamic Table Latest Record Version node will execute the below stage:
+
+* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
+
+### External Iceberg table Redeployment
+#### Recreating a Snowflake Iceberg table
+
+If any changes in config options like external volume,baselocation ,node properties ,column  results in recreating iceberg table during redeployment
+
+* **Create Iceberg Table**: This stage will execute a `CREATE OR REPLACE` statement and create a Iceberg Table in the target environment.
+
+###  External Iceberg table Undeployment
+
+If a snowflake iceberg table is dropped from the workspace and commited to GIT results in table dropped from target environment.
+This is executed as a single stage:
+
+* **Drop Iceberg Table**
   
 <h1 id="code">Code</h1>
 
