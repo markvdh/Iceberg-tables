@@ -1,0 +1,56 @@
+fileVersion: 1
+id: 14cadfe0-1abe-475c-b316-78392ffea76d
+name: ICT_OS
+operation:
+  config:
+    basename: locname
+    catdb: test_de
+    catint: gluecatalogtest
+    cattable: test_iceberg
+    extvolume: glueextvol
+    metafilepath: metafilepath/
+    tcatalog: AWS Glue
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SOURCE_DATA
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c2cc7c06-9793-4f64-9aed-ae3d932b48fc
+          stepCounter: 14cadfe0-1abe-475c-b316-78392ffea76d
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        dummycolumn: true
+        name: DATA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: This column is not part of target iceberg table
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: ICT_OS
+        noLinkRefs: []
+  name: ICT_OS
+  overrideSQL: false
+  schema: ""
+  sqlType: "308"
+  type: sql
+  version: 1
+type: Node

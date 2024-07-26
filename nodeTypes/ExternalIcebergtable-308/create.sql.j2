@@ -40,7 +40,7 @@ select 1 = 0
 
         #Catalogtablename
 
-          {%if desiredState.config.cattable != '' and config.tcatalog == 'AWS Glue' %}
+          {%if desiredState.config.cattable != '' and desiredState.config.tcatalog == 'AWS Glue' %}
             {%set catalogtablename = desiredState.config.cattable %}
           {%endif%}
 
