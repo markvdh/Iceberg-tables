@@ -1,0 +1,433 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Snowflake Iceberg tables == #}
+{# == Node Type Description    : This node helps to create a snowflake managed iceberg table and insert data from source table into iceberg tables == #}
+
+
+# Create table first
+{% if desiredState == currentState %}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+
+{% elif currentState == undefined %}
+
+
+          {%set extvol = '' %}
+          {%set catalogval = '' %}
+          {%set catalogtablename ='' %}
+          {%set catalogdbname ='' %}
+          {%set metafilepath ='' %}
+          {%set baseloc ='' %}
+
+        #External volume
+          {%if desiredState.config.extvol != '' %}
+            {%set extvol =  desiredState.config.extvolume %}
+          {%endif%}
+        
+
+        #Baselocation
+        {%if desiredState.config.basename != '' %}
+            {%set baseloc =  desiredState.config.basename %}
+        {%endif%}
+
+        #Figure out cluster key
+
+        {% set nsVariables = namespace(finalClusterKey="") %}
+        {% if desiredState.config.clusterKey == true %}
+            {% if desiredState.config.clusterKeyExpressions == true %}
+                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% if expression[loop.index0] == "" %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% else %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% else %}
+
+                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% endif %}
+        {% endif %}
+
+    
+         {{ stage('Create Iceberg Table', true, "sql", "create") }}
+         
+         CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+        (
+          {% for col in desiredState.columns %}
+           "{{ col.name }}" {{icebergcoldatatype( col.dataType)}}
+           {% if col.isSurrogateKey %}
+               identity
+           {% endif %}
+           {%- if not col.nullable %} NOT NULL
+               {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+           {% endif %}
+           {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+           {%- if not loop.last -%}, {% endif %}
+          {% endfor %})
+        
+          {%if desiredState.config.clusterKey == true%} {{ nsVariables.finalClusterKey }}   {%endif%}
+    
+        
+        {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
+        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%}
+        CATALOG  =   'SNOWFLAKE'
+        
+	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'
+      
+    {% endif %}		    
+
+{%elif currentState!=undefined and currentState!=desiredState and desiredState!=undefined%}
+
+ {# Clustering Test #}
+     {% set clusterKeyTest = currentState.config.clusterKey == desiredState.config.clusterKey %}
+    {% set clusterKeyExpressionsTest = currentState.config.clusterKeyExpressions == desiredState.config.clusterKeyExpressions %}
+    {% set clusterKeyConfigTest = currentState.config.clusterKeyConfig == desiredState.config.clusterKeyConfig %}
+    {% set clusterKeyConfigExpressionsTest = currentState.config.clusterKeyConfigExpressions == desiredState.config.clusterKeyConfigExpressions %}
+    
+    
+
+    {% if 
+        clusterKeyTest == false or
+        clusterKeyExpressionsTest == false or
+        clusterKeyConfigTest == false or
+        clusterKeyConfigExpressionsTest == false %}
+
+        {% set clusterTest = false %}
+    {% else %}
+        {% set clusterTest = true %}
+    {% endif %}
+
+        ## Storage Location Tests
+        ## Only need to account for updated Storage Location mappings 
+        ## sourceTest handles changed Storage Location Names
+        ## Current Namespace Variables
+        {% set nsVariables = namespace(nsCurrentDepStorageLocations="") %}
+        {% set nsVariables = namespace(nsCurrentSourceStorageLocations="") %}
+        {% set nsVariables = namespace(nsCurrentTargetStorageLocations="") %}
+        {% set nsVariables = namespace(nsCurrentUsedStorageLocations="") %}
+
+        ## Current State Storage Location Info
+        {% for source in currentState.sources %}
+            {% for dep in source.dependencies %}
+                {% set depSourceLocation = dep.node.location.name %}
+                {% if loop.first %}
+                    {% set nsVariables.nsCurrentDepStorageLocations = depSourceLocation %}
+                {% else %}
+                    {% set nsVariables.nsCurrentDepStorageLocations = nsVariables.nsCurrentDepStorageLocations + ',' + depSourceLocation %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if loop.first %}
+                {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentDepStorageLocations %}
+            {% else %}
+                {% set nsVariables.nsCurrentSourceStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentDepStorageLocations %}
+            {% endif %}
+        {% endfor %}
+
+        {% set nsVariables.nsCurrentTargetStorageLocations = currentState.node.location.name  %}
+
+        {% set nsVariables.nsCurrentUsedStorageLocations = nsVariables.nsCurrentSourceStorageLocations + ',' + nsVariables.nsCurrentTargetStorageLocations %}
+
+        {% set currentStorageLocations = (nsVariables.nsCurrentUsedStorageLocations).split(',') | list %}
+        {% set currentUniqueStorageLocations = currentStorageLocations | unique | sort | list %}
+
+        ## Desired Namespace Variables
+        {% set nsVariables = namespace(nsDesiredDepStorageLocations="") %}
+        {% set nsVariables = namespace(nsDesiredSourceStorageLocations="") %}
+        {% set nsVariables = namespace(nsDesiredTargetStorageLocations="") %}
+        {% set nsVariables = namespace(nsDesiredUsedStorageLocations="") %}
+
+        {% set nsVariables = namespace(storageLocationTest="") %}
+
+        ## Desired State Storage Location Info
+        {% for source in desiredState.sources %}
+            {% for dep in source.dependencies %}
+                {% set depSourceLocation = dep.node.location.name %}
+                {% if loop.first %}
+                    {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
+                {% else %}
+                    {% set nsVariables.nnsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+                {% endif %}
+            {% endfor %}
+            
+            {% if loop.first %}
+                {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredDepStorageLocations %}
+            {% else %}
+                {% set nsVariables.nsDesiredSourceStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredDepStorageLocations %}
+            {% endif %}
+        {% endfor %}
+
+        {% set nsVariables.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
+
+        {% set nsVariables.nsDesiredUsedStorageLocations = nsVariables.nsDesiredSourceStorageLocations + ',' + nsVariables.nsDesiredTargetStorageLocations %}
+
+        {% set desiredStorageLocations = (nsVariables.nsDesiredUsedStorageLocations).split(',') | list %}
+        {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
+
+        ## Storage Location Tests
+        ## Only need to account for updated Storage Location mappings
+        ## sourceTest handles changed Storage Location Names
+        {% set nsVariables.storageLocationTest = true %}
+        {% for name in desiredUniqueStorageLocations if nsVariables.storageLocationTest == true %}
+            ## Current mappings
+            {%if currentState.storageLocations | length > 0 %}
+            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
+            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
+            {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
+            {%else%}
+            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
+            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
+            {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}          
+            {%endif%}
+            ## Desired mappings
+            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
+            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
+            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
+
+            {% if currentDatabaseSchema != desiredDatabaseSchema %}
+                {% set nsVariables.storageLocationTest = false %}
+            {% endif %}
+        {% endfor %}
+        
+{% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
+{% set extvoltest = currentState.config.extvolume == desiredState.config.extvolume %}
+{% set baseloctest = currentState.config.basename == desiredState.config.basename%}
+
+ {% set nsVariables.colchanges = 0 %}
+ {% set nsVariables.colchangescdt = 0 %}
+            {% for alterCurCol in currentState.columns %}  
+    
+             {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+ 
+
+                    {% set currentDatatype = alterCurCol.dataType %}
+                    {% set currentNullable = alterCurCol.nullable %}
+                    {% set currentDefaultValue = alterCurCol.defaultValue %}
+                    {% set currentDescription = alterCurCol.description %}
+
+
+                    {% set desiredColumnName = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+                    {% set desiredNullable = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='nullable') | first %}
+                    {% set desiredDefaultValue = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='defaultValue') | first %}
+                    {% set desiredDescription = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='description') | first %}
+            
+
+                    {% set datatypeTest = currentDatatype == desiredDatatype %}
+                    {% set nullableTest = currentNullable == desiredNullable %}
+                    {% set defaultValueTest = currentDefaultValue == desiredDefaultValue %}
+                    {% set descriptionTest = currentDescription == desiredDescription %}
+                        {% if (
+                            nullableTest == false  or
+                            defaultValueTest == false or
+                            descriptionTest == false) %}
+                        {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}
+                                                       
+                    {% endif %}
+                    {%if 'OBJECT' not in alterCurCol.dataType and 'MAP' not in alterCurCol.dataType and 'ARRAY'  not in alterCurCol.dataType  %} 
+
+                    {% if datatypeTest == false  %}
+                        {% set nsVariables.colchanges = nsVariables.colchanges + 1 %}                                                 
+                    {% endif %}
+                    {%else%}
+                    
+                    {% if datatypeTest == false  %}
+                        {% set nsVariables.colchangescdt = nsVariables.colchangescdt + 1 %}                                                 
+                    {% endif %}
+                   
+                   {% endif %}
+              {%endif%} 
+            {% endfor %}
+
+
+
+        {# Create Iceberg table-redeployment #}
+
+{% if  clusterTest == false or extvoltest == false or catinttest == false or metafiletest == false or cattabletest == false or catdbtest == false or nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name or currentState.node.location.name != desiredState.node.location.name  or baseloctest == false  or nsVariables.colchanges > 0 %}
+
+                
+          {%set extvol = '' %}
+          {%set catalogval = '' %}
+          {%set catalogtablename ='' %}
+          {%set catalogdbname ='' %}
+          {%set metafilepath ='' %}
+          {%set baseloc ='' %}
+        
+        #External volume
+        {%if desiredState.config.extvol != '' %}
+            {%set extvol =  desiredState.config.extvolume %}
+        {%endif%}
+
+        #Baselocation
+        {%if desiredState.config.basename != '' and desiredState.config.tcatalog == 'Snowflake' %}
+            {%set baseloc =  desiredState.config.basename %}
+        {%endif%}
+
+        #Figure out cluster key
+
+        {% set nsVariables = namespace(finalClusterKey="") %}
+        {% if desiredState.config.clusterKey == true %}
+            {% if desiredState.config.clusterKeyExpressions == true %}
+                {% set column, expression = desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='columnNameExpressions.name') | list, desiredState.config.clusterKeyConfigExpressions.get('items') | map(attribute='sqlExpression') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% if expression[loop.index0] == "" %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                    {% else %}
+                        {% set nsVariables.clusterValues = nsVariables.clusterValues + [expression[loop.index0]] %}
+                    {% endif %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% else %}
+
+                {% set column = desiredState.config.clusterKeyConfig.get('items') | map(attribute='columnName.name') | list %}
+
+                {%- set nsVariables = namespace(clusterValues=[]) %}
+
+                {% for r in column %}
+                    {% set nsVariables.clusterValues = nsVariables.clusterValues + [r] %}
+                {% endfor %}
+
+                {% set nsVariables.finalClusterKey = 'CLUSTER BY (' + nsVariables.clusterValues | join(',') + ')' %}
+
+            {% endif %}
+        {% endif %}
+         
+        {{ stage('Create Iceberg Table', true, "sql", "alter") }}
+
+         CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
+         (
+          {% for col in desiredState.columns %}
+           "{{ col.name }}" {{icebergcoldatatype( col.dataType)}}
+           {% if col.isSurrogateKey %}
+               identity
+           {% endif %}
+           {%- if not col.nullable %} NOT NULL
+               {%- if col.defaultValue | length > 0 %} DEFAULT {{ col.defaultValue }}{% endif %}
+           {% endif %}
+           {%- if col.description | length > 0 %} COMMENT '{{ col.description | escape }}'{% endif %}
+           {%- if not loop.last -%}, {% endif %}
+          {% endfor %}
+           )
+          {%if desiredState.config.clusterKey == true%} {{ nsVariables.finalClusterKey }}   {%endif%}
+        {%endif%}
+        
+        {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
+        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%}
+        CATALOG  =   'SNOWFLAKE'
+        
+	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'	  
+
+ {%elif clusterTest == true and extvoltest == true and  nsVariables.storageLocationTest == true and currentState.node.name == desiredState.node.name and
+ currentState.node.location.name == desiredState.node.location.name  
+ and baseloctest == true  and nsVariables.colchangescdt > 0 %}
+
+{{ stage('Alter structured data type in Iceberg Table', true, "sql", "alter") }}
+
+     {% set nsVariables.renamefield = false %}
+     {% for alterCurCol in currentState.columns %}  
+         {% if alterCurCol.id in desiredState.columns | map(attribute="id") %}
+
+                    {% set currentDatatype = alterCurCol.dataType %}
+                    {% set desiredColname = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='name') | first %}
+                    {% set desiredDatatype = desiredState.columns | selectattr('id', "equalto", alterCurCol.id) | map(attribute='dataType') | first %}
+
+            
+                {%if 'OBJECT'  in alterCurCol.dataType or 'MAP'  in alterCurCol.dataType or 'ARRAY'   in alterCurCol.dataType  %} 
+
+                    {%if 'OBJECT'  in alterCurCol.dataType %}
+                      {% set elements1 = currentDatatype[7:-1].split(',') %}
+                      {% set elements2 = desiredDatatype[7:-1].split(',') %}
+                    {%elif 'MAP'  in alterCurCol.dataType %}
+                      {% set elements1 = currentDatatype[4:-1].split(',') %}
+                      {% set elements2 = desiredDatatype[4:-1].split(',') %}
+                    {%elif 'ARRAY'   in alterCurCol.dataType%}
+                      {% set elements1 = currentDatatype[6:-1].split(',') %}
+                      {% set elements2 = desiredDatatype[6:-1].split(',') %}   
+                    {%endif%}
+                    
+                    {% set nsVariables.element_names1 = [] %}
+                    {% for element in elements1 %}
+                       {% set element_name = element.split()[0] %}
+                       {% set nsVariables.element_names1 = nsVariables.element_names1 + [element_name] %}
+                    {% endfor %}
+
+                    {% set nsVariables.element_names2 = [] %}
+                    {% for element in elements2 %}
+                        {% set element_name = element.split()[0] %}
+                        {% set nsVariables.element_names2 = nsVariables.element_names2 + [element_name] %}
+                    {% endfor %} 
+                     
+                     {%set ele1 = nsVariables.element_names1|count %}
+                     {%set ele2 = nsVariables.element_names2|count %}
+                    {%if ele1 == ele2 %}
+                    {% for name1 in nsVariables.element_names1 %}
+                      {% if name1 not in nsVariables.element_names2%}
+
+                        {%set  nsVariables.renamefield = true %}
+                      {% endif %}
+                    {% endfor %}
+                    {%endif%}
+
+                    {%if nsVariables.renamefield == true %}
+                        
+                        ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}ALTER COLUMN {{ desiredColname }} SET DATA TYPE {{ desiredDatatype }} RENAME FIELDS
+                    {%else%}
+
+                        ALTER ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}ALTER COLUMN {{ desiredColname }} SET DATA TYPE {{ desiredDatatype }}
+                    {%endif%}
+
+                                                           
+                {% endif %}                   
+         {% endif %}
+      {% endfor %}
+
+
+
+ {%endif%} 
+
+
+{%elif  currentState != undefined and desiredState == undefined%}
+
+    {# Table or View Name #}
+    {% set targetObjectDatabase = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[0] %} 
+    {% set targetObjectSchema = ref_no_link(currentState.node.location.name, currentState.node.name).split('.')[1] %} 
+    {% set fullyQualifiedTargetObjectName = ref_no_link(currentState.node.location.name, currentState.node.name) %}
+           
+        {{ stage('Drop iceberg table', true, "sql", "drop") }}
+         DROP ICEBERG TABLE IF EXISTS {{ fullyQualifiedTargetObjectName }}
+	  
+{%else%}
+
+{{ stage('Nothing to do.') }}
+select 1 = 0
+	  
+{%endif%}
+

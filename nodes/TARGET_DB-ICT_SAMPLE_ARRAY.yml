@@ -1,0 +1,78 @@
+fileVersion: 1
+id: 72e8cbb2-7c07-424f-a3c5-b7fb2d5957f6
+name: ICT_SAMPLE_ARRAY
+operation:
+  config:
+    basename: ARRAYSAMPLE
+    catdb: my_cat_table
+    catint: ""
+    cattable: my_cat_table
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    extvolume: sficebergextvol1
+    metafilepath: metafilepath/
+    tcatalog: Snowflake
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 920ad70f-61d8-4a34-9bc0-f89bc1dcc29f
+          stepCounter: 72e8cbb2-7c07-424f-a3c5-b7fb2d5957f6
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: d8f84800-41e8-4e7f-8642-499d62c0f83b
+                stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: af2fe62f-eaa3-4bd6-8fb1-59b82916e1ef
+          stepCounter: 72e8cbb2-7c07-424f-a3c5-b7fb2d5957f6
+        config: {}
+        dataType: ARRAY(INT)
+        description: ""
+        name: DATA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fae89c7d-e094-497c-85ad-8c19bf86d527
+                stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          SAMPLE_ARRAY: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: SAMPLE_ARRAY
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'SAMPLE_ARRAY') }} "SAMPLE_ARRAY"
+        name: ICT_SAMPLE_ARRAY
+        noLinkRefs: []
+  name: ICT_SAMPLE_ARRAY
+  overrideSQL: false
+  schema: ""
+  sqlType: "305"
+  type: sql
+  version: 1
+type: Node

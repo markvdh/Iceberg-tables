@@ -1,0 +1,105 @@
+fileVersion: 1
+id: d3f4c1d4-03af-48aa-917c-59fb57a91873
+name: ICT_LINEITEM
+operation:
+  config:
+    basename: LITEMOBJ
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    extvolume: sficebergextvol1
+  database: ""
+  deployEnabled: true
+  description: Lineitem data as defined by TPC-H
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: f912fe47-dc25-4348-881a-c1700d08482f
+          stepCounter: d3f4c1d4-03af-48aa-917c-59fb57a91873
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: L_ORDERKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: df636cd4-1f9c-4ae5-a8e5-7f5e4fd3ffd2
+                stepCounter: 7850121a-f209-43fd-ad9f-0c5a6f65319e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 453a5918-da0d-4ffb-ade8-878a8415ccc4
+          stepCounter: d3f4c1d4-03af-48aa-917c-59fb57a91873
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: L_PARTKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 7235c831-067f-4c5a-a864-2cb7f70298a9
+                stepCounter: 7850121a-f209-43fd-ad9f-0c5a6f65319e
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 5879b405-4c88-4734-a13d-a971cb8ddfd3
+          stepCounter: d3f4c1d4-03af-48aa-917c-59fb57a91873
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: L_SUPPKEY
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 4de07467-a0e4-475c-b34e-6579366fdbb3
+                stepCounter: 7850121a-f209-43fd-ad9f-0c5a6f65319e
+            transform: ""
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 6b5d0290-e2e7-4d6e-9f94-1581e27586e5
+          stepCounter: d3f4c1d4-03af-48aa-917c-59fb57a91873
+        config: {}
+        dataType: OBJECT(L_ORDERKEY number(38,0),L_PARTKEY number(38,0),L_SUPPKEY number(38,0))
+        defaultValue: ""
+        description: ""
+        name: json_data
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: OBJECT_CONSTRUCT('L_ORDERKEY', L_ORDERKEY, 'L_PARTKEY', L_PARTKEY,'L_SUPPKEY',L_SUPPKEY)
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          LINEITEM: 7850121a-f209-43fd-ad9f-0c5a6f65319e
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: LINEITEM
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'LINEITEM') }} "LINEITEM"
+        name: ICT_LINEITEM
+        noLinkRefs: []
+  name: ICT_LINEITEM
+  overrideSQL: false
+  schema: ""
+  sqlType: "305"
+  type: sql
+  version: 1
+type: Node

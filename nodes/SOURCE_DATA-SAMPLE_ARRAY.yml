@@ -1,0 +1,58 @@
+fileVersion: 1
+id: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+name: SAMPLE_ARRAY
+operation:
+  database: ""
+  dataset: ""
+  deployEnabled: true
+  description: ""
+  locationName: SOURCE_DATA
+  metadata:
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d8f84800-41e8-4e7f-8642-499d62c0f83b
+          stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: ID
+        nullable: false
+        primaryKey: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: fae89c7d-e094-497c-85ad-8c19bf86d527
+          stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+        config: {}
+        dataType: ARRAY
+        defaultValue: ""
+        description: ""
+        name: DATA
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    join:
+      joinCondition: FROM {{ ref('SAMPLE_SOURCE', 'SAMPLE_ARRAY') }}
+  name: SAMPLE_ARRAY
+  schema: ""
+  sqlType: Source
+  table: SAMPLE_ARRAY
+  type: sourceInput
+  version: 1
+type: Node

@@ -1,0 +1,37 @@
+{#
+    Copyright (c) 2023 Coalesce. All rights reserved.
+This script and its associated documentation are confidential and proprietary to Coalesce.
+Unauthorized reproduction, distribution, or disclosure of this material is strictly prohibited.
+Coalesce permits you to copy and modify this script for the purposes of using with Coalsce but
+does not permit copying or modification for any other purpose.  
+#}
+{# == Node Type Version        : 1  == #}
+{# == Node Type Name           : Snowflake Iceberg tables == #}
+{# == Node Type Description    : This node helps to create a snowflake managed iceberg table and insert data from source table into iceberg tables == #}
+
+
+
+    {{ stage('Insert  data -Snowflake managed Iceberg table ' + name | string ) }}
+	
+				INSERT INTO {{ ref_no_link(node.location.name, node.name) }}
+				(
+					{% for col in columns %}
+						"{{ col.name }}"
+						{%- if not loop.last -%},{% endif %}
+					{% endfor %}
+				)
+				( SELECT
+			
+			{% for source in sources %}
+			    {% for col in source.columns %}
+				   {%if 'ARRAY' in col.dataType or 'OBJECT' in col.dataType or 'MAP' in col.dataType %}
+                    {{ get_source_transform(col) }}::{{col.dataType}} AS "{{ col.name }}"
+				   {%else%}
+				    {{ get_source_transform(col) }} AS "{{ col.name }}" 
+				   {%endif%}
+				   {%- if not loop.last -%}, {% endif %}
+			    {% endfor %}
+	
+			  {{ source.join }}
+			{%endfor%})
+   
