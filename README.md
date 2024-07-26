@@ -83,7 +83,7 @@ There are four configs within the **Node Properties** group.
 * **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format.[External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in snowflake as a prerequisite.
 * **Catalog integration**: Specifies the identifier (name) of the catalog integration for this table.
 * **Catalog namespace**:Optionally specifies the namespace (for example, my_glue_database) for the AWS Glue Data Catalog source.Option available if AWS Glue catalog is chosen.
-* **Catalog table**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
+* **Catalog table name**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
 * **Metadata filepath**:Specifies the relative path of the Iceberg metadata file to use for column definitions.Option available if Object Storage Catalog is chosen.
   
 <h1 id="code">Code</h1>
