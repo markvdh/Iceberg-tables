@@ -8,6 +8,8 @@ The Iceberg Tables Package includes:
 
 <h2 id="snowflake-iceberg-table">Snowflake Iceberg table</h2>
 
+An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats.[Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
+
 ### Snowflake Iceberg table Configuration
 
 The Snowflake Iceberg table has two configuration groups:
@@ -28,7 +30,7 @@ There are four configs within the **Node Properties** group.
   * If TRUE the node will be deployed or redeployed when changes are detected.
   * If FALSE the node will not be deployed or the node will be dropped during redeployment.
 
-<h3 id="snowflake-iceberg-table-option">Iceberg Options</h3>
+<h3 id="snowflake-iceberg-table-options">Iceberg Options</h3>
 
 <h2 id="external-iceberg-table">External Iceberg table</h2>
 
@@ -52,7 +54,7 @@ There are four configs within the **Node Properties** group.
   * If TRUE the node will be deployed or redeployed when changes are detected.
   * If FALSE the node will not be deployed or the node will be dropped during redeployment.
 
-<h3 id="external-iceberg-table-option">Iceberg Options</h3>
+<h3 id="external-iceberg-table-options">Iceberg Options</h3>
 
 <h1 id="code">Code</h1>
 
