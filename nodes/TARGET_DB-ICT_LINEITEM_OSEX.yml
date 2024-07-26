@@ -1,0 +1,56 @@
+fileVersion: 1
+id: bbdb0d20-1543-43bd-9932-6070f81a83c9
+name: ICT_LINEITEM_OSEX
+operation:
+  config:
+    basename: locname
+    catdb: my_cat_table
+    catint: icebergCatalogInt
+    cattable: my_cat_table
+    extvolume: sficebergextvol1
+    metafilepath: LINEITEM/metadata/v1720689819124.metadata.json
+    tcatalog: Object storage
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e628180f-1d05-4515-9bd0-4e84341764b2
+          stepCounter: bbdb0d20-1543-43bd-9932-6070f81a83c9
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        isSurrogateKey: true
+        name: DATA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: This column is not part of target iceberg table
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: ICT_LINEITEM_OSEX
+        noLinkRefs: []
+  name: ICT_LINEITEM_OSEX
+  overrideSQL: false
+  schema: ""
+  sqlType: "308"
+  type: sql
+  version: 1
+type: Node

@@ -1,0 +1,70 @@
+fileVersion: 1
+id: "308"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Iceberg table
+    short: ICT
+    plural: Iceberg tables
+    tagColor: '#EB146E'
+
+    deployStrategy: advanced
+
+    config:
+
+    - groupName: Iceberg Options
+      items:
+
+      - displayName: Type of catalog
+        attributeName: tcatalog
+        type: dropdownSelector
+        default: AWS Glue
+        options:
+          - AWS Glue
+          - Object storage
+        isRequired: true
+      
+      - displayName: Snowflake EXTERNAL VOLUME Name
+        attributeName: extvolume
+        type: textBox
+        default: "my_ext_vol"
+
+      - displayName: Catalog integration
+        attributeName: catint
+        type: textBox
+        enableIf: "{% if config.tcatalog != 'Snowflake'  %} true {% else %} false {% endif %}"
+
+      - displayName: Catalog table name
+        attributeName: cattable
+        type: textBox
+        default: "my_cat_table"
+        enableIf: "{% if config.tcatalog == 'AWS Glue'  %} true {% else %} false {% endif %}"
+      
+      - displayName: Catalog namespace
+        attributeName: catdb
+        type: textBox
+        default: "my_cat_table"
+        enableIf: "{% if config.tcatalog == 'AWS Glue'  %} true {% else %} false {% endif %}"
+
+      - displayName: Base location name
+        attributeName: basename
+        type: textBox
+        default: "locname"
+        enableIf: "{% if config.tcatalog == 'Snowflake'  %} true {% else %} false {% endif %}"
+
+      - displayName: Metadata file path
+        attributeName: metafilepath
+        type: textBox
+        default: "metafilepath/"
+        enableIf: "{% if config.tcatalog == 'Object storage'  %} true {% else %} false {% endif %}"
+
+    systemColumns:
+    - displayName: 'DATA'
+      transform: 'This column is not part of target iceberg table'
+      dataType:  STRING
+      placement: beginning
+      attributeName: dummycolumn
+name: External Iceberg table
+type: NodeType

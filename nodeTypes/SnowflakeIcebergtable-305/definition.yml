@@ -1,0 +1,79 @@
+fileVersion: 1
+id: "305"
+isDisabled: false
+metadata:
+  defaultStorageLocation: null
+  error: null
+  nodeMetadataSpec: |
+    capitalized: Snowflake Iceberg table
+    short: ICT
+    plural: Iceberg tables
+    tagColor: '#EB146E'
+
+    deployStrategy: advanced
+
+    config:
+
+    - groupName: Iceberg Options
+      items:
+
+      - displayName: Snowflake catalog
+        type: label
+      
+      - displayName: Snowflake EXTERNAL VOLUME Name
+        attributeName: extvolume
+        type: textBox
+        isRequired: true
+        default: "my_ext_vol"
+
+      - displayName: Base location name
+        attributeName: basename
+        type: textBox
+        isRequired: true
+        default: "locname"
+
+      - type: toggleButton
+        attributeName: clusterKey
+        displayName: Cluster Key
+        default: false
+        
+      - type: toggleButton
+        attributeName: clusterKeyExpressions
+        displayName: Allow Expressions in Cluster Key
+        default: false
+        isRequired: false
+        enableIf: "{% if config.clusterKey %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfig
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnName
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and not config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+
+      - type: tabular
+        displayName: 'Cluster Key'
+        attributeName: clusterKeyConfigExpressions
+        columns:
+
+        -  type: columnDropdownSelector
+           displayName: Column Name
+           attributeName: columnNameExpressions
+           isRequired: false
+      
+        -  type: textBox
+           displayName: Expression
+           attributeName: sqlExpression
+           default: "ex. trunc(<column_name>, -5)"
+           isRequired: false
+      
+        isRequired: false
+        enableIf: "{% if (config.clusterKey and config.clusterKeyExpressions) %} true {% else %} false {% endif %}"
+name: Snowflake Iceberg table
+type: NodeType
