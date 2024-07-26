@@ -43,9 +43,9 @@ There are four configs within the **Node Properties** group.
 
  ## Prerequisites
  
- *The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
- *An EXTERNAL VOLUME is expected to be created in Snowflake at the Storage Location chosen in the Node properties
- *In case of creating a snowflake iceberg table with structured column type like OBJECT,MAP or ARRAY.Ensure the data type is updated with the appropriate structure.For example,the source snowflake table has OBJECT data type,then the datat type of the same column in the iceberg table node added on top is expected to structured type OBJECT(age string,id number) based on the data it has.
+ * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
+ * An EXTERNAL VOLUME is expected to be created in Snowflake at the Storage Location chosen in the Node properties
+ * In case of creating a snowflake iceberg table with structured column type like OBJECT,MAP or ARRAY.Ensure the data type is updated with the appropriate structure.For example,the source snowflake table has OBJECT data type,then the datat type of the same column in the iceberg table node added on top is expected to structured type OBJECT(age string,id number) based on the data it has.
     
 <h2 id="external-iceberg-table">External Iceberg table</h2>
 
