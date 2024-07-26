@@ -1,6 +1,6 @@
 fileVersion: 1
-id: ec0250d1-9b4a-4af1-8c37-850eb8d15bf1
-name: ICT_GLUE_SAMPLEEX
+id: 14cadfe0-1abe-475c-b316-78392ffea76d
+name: ICT_OS
 operation:
   config:
     basename: locname
@@ -14,7 +14,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: SOURCE_DATA
   materializationType: table
   metadata:
     appliedNodeTests: []
@@ -24,21 +24,18 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 0644ec31-c397-4b79-aa35-259f32a099f3
-          stepCounter: ec0250d1-9b4a-4af1-8c37-850eb8d15bf1
+          columnCounter: c2cc7c06-9793-4f64-9aed-ae3d932b48fc
+          stepCounter: 14cadfe0-1abe-475c-b316-78392ffea76d
         config: {}
-        dataType: string
+        dataType: STRING
         defaultValue: ""
         description: ""
-        keyColumnType: None
-        name: l_date
+        dummycolumn: true
+        name: DATA
         nullable: true
         sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: "0"
-                stepCounter: "0"
-            transform: ""
-        systemColumnType: None
+          - columnReferences: []
+            transform: This column is not part of target iceberg table
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
@@ -48,9 +45,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_GLUE_SAMPLEEX
+        name: ICT_OS
         noLinkRefs: []
-  name: ICT_GLUE_SAMPLEEX
+  name: ICT_OS
   overrideSQL: false
   schema: ""
   sqlType: "308"
