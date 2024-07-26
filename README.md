@@ -85,6 +85,11 @@ There are four configs within the **Node Properties** group.
 * **Catalog namespace**:Optionally specifies the namespace (for example, my_glue_database) for the AWS Glue Data Catalog source.Option available if AWS Glue catalog is chosen.
 * **Catalog table name**:Name of the catalog table.Option available if AWS Glue catalog is chosen.
 * **Metadata filepath**:Specifies the relative path of the Iceberg metadata file to use for column definitions.Option available if Object Storage Catalog is chosen.
+
+ ## Prerequisites
+ 
+ * The Role we mention in the Workspace and Environment properties of Coalesce should be 'ACCOUNTADMIN' inorder to successfully create an  iceberg table
+ * An EXTERNAL VOLUME,CATALOG INTEGRATION is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
   
 <h1 id="code">Code</h1>
 
