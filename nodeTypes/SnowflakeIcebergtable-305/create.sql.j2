@@ -20,10 +20,6 @@ select 1 = 0
 
 
           {%set extvol = '' %}
-          {%set catalogval = '' %}
-          {%set catalogtablename ='' %}
-          {%set catalogdbname ='' %}
-          {%set metafilepath ='' %}
           {%set baseloc ='' %}
 
         #External volume
@@ -282,7 +278,7 @@ select 1 = 0
         {%endif%}
 
         #Baselocation
-        {%if desiredState.config.basename != '' and desiredState.config.tcatalog == 'Snowflake' %}
+        {%if desiredState.config.basename != '' %}
             {%set baseloc =  desiredState.config.basename %}
         {%endif%}
 
