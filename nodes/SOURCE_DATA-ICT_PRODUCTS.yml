@@ -1,0 +1,100 @@
+fileVersion: 1
+id: d8abb59c-8314-4971-948a-0702bc7458b2
+name: ICT_PRODUCTS
+operation:
+  config:
+    basename: PROSM
+    clusterKey: false
+    clusterKeyConfig:
+      items:
+        - {}
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    extvolume: sficebergextvol1
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SOURCE_DATA
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 9e070cc1-6196-4b85-abed-a4f4a7416b1c
+          stepCounter: d8abb59c-8314-4971-948a-0702bc7458b2
+        config: {}
+        dataType: NUMBER(38,0)
+        description: ""
+        name: PRODUCT_ID
+        nullable: false
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: fba5e562-db57-4487-ba1b-b25afcec5b02
+                stepCounter: 6fdb5587-4c53-4102-ad05-684d3aa9ff87
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 7a55babc-d010-4119-92b3-9d877aae299d
+          stepCounter: d8abb59c-8314-4971-948a-0702bc7458b2
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0a5c93d8-cf1b-44b6-ae8f-51480e1f2891
+                stepCounter: 6fdb5587-4c53-4102-ad05-684d3aa9ff87
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0b4311ee-37f2-4074-9105-f9c22b60c30a
+          stepCounter: d8abb59c-8314-4971-948a-0702bc7458b2
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 75292df9-6f6a-4518-9eab-7f32a7578768
+                stepCounter: 6fdb5587-4c53-4102-ad05-684d3aa9ff87
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2b92fc32-765c-41f5-8d1f-7c040e4bd293
+          stepCounter: d8abb59c-8314-4971-948a-0702bc7458b2
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 0058be13-c408-466f-8434-b1778131b89f
+                stepCounter: 6fdb5587-4c53-4102-ad05-684d3aa9ff87
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: ICT_PRODUCTS
+        noLinkRefs: []
+  name: ICT_PRODUCTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "305"
+  type: sql
+  version: 1
+type: Node

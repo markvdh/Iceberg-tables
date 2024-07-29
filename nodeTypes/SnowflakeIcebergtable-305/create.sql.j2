@@ -169,7 +169,7 @@ select 1 = 0
                 {% if loop.first %}
                     {% set nsVariables.nsDesiredDepStorageLocations = depSourceLocation %}
                 {% else %}
-                    {% set nsVariables.nnsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
+                    {% set nsVariables.nsDesiredDepStorageLocations = nsVariables.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
                 {% endif %}
             {% endfor %}
             
@@ -215,6 +215,23 @@ select 1 = 0
 {% set nodeCommentTest = currentState.node.description == desiredState.node.description %}
 {% set extvoltest = currentState.config.extvolume == desiredState.config.extvolume %}
 {% set baseloctest = currentState.config.basename == desiredState.config.basename%}
+
+           {# Add/Drop Columns #}
+            {% set nsVariables.dcolchanges = 0 %}
+            {% for dropCurCol in currentState.columns %}
+                {% if dropCurCol.id not in desiredState.columns | map(attribute="id") %}
+                     {% set nsVariables.dcolchanges = nsVariables.dcolchanges + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            {# Add Columns #}
+            {% set nsVariables.colchangesa = 0 %}
+            {% for addDesCol in desiredState.columns %}
+                {% if addDesCol.id not in currentState.columns | map(attribute="id") %}
+                   {% set nsVariables.colchangesa = nsVariables.colchangesa + 1 %}
+                {%endif%}
+            {% endfor %}
+
 
  {% set nsVariables.colchanges = 0 %}
  {% set nsVariables.colchangescdt = 0 %}
@@ -266,7 +283,7 @@ select 1 = 0
 
         {# Create Iceberg table-redeployment #}
 
-{% if  clusterTest == false or extvoltest == false or catinttest == false or metafiletest == false or cattabletest == false or catdbtest == false or nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name or currentState.node.location.name != desiredState.node.location.name  or baseloctest == false  or nsVariables.colchanges > 0 %}
+{% if  clusterTest == false or extvoltest == false or catinttest == false or metafiletest == false or cattabletest == false or catdbtest == false or nsVariables.storageLocationTest == false or currentState.node.name != desiredState.node.name or currentState.node.location.name != desiredState.node.location.name  or baseloctest == false  or nsVariables.dcolchanges > 0 or nsVariables.colchangesa > 0 or nsVariables.colchanges > 0 %}
 
                 
           {%set extvol = '' %}
@@ -282,7 +299,7 @@ select 1 = 0
         {%endif%}
 
         #Baselocation
-        {%if desiredState.config.basename != '' and desiredState.config.tcatalog == 'Snowflake' %}
+        {%if desiredState.config.basename != ''  %}
             {%set baseloc =  desiredState.config.basename %}
         {%endif%}
 
