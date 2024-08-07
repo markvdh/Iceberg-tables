@@ -160,11 +160,12 @@ select 1 = 0
         
         {% for name in desiredUniqueStorageLocations %}
             ## Current mappings
+            
             {%if currentState.storageLocations | length > 0 %}
             {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
             {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
             {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}
-            {%else%}
+            {%elif name in currentState.storageLocations %}
             {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | string %}
             {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | string %}
             {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}          
