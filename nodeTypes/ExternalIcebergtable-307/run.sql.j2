@@ -10,6 +10,7 @@ does not permit copying or modification for any other purpose.
 {# == Node Type Description    :  == #}
 
 
+{% if config.schrefresh == false %}
 
         {{ stage('Refresh data -Externally managed Iceberg table ' + name | string ) }}
        
@@ -23,3 +24,4 @@ does not permit copying or modification for any other purpose.
 
 	   {%endif%}
     
+{%endif%}

@@ -9,7 +9,12 @@ operation:
     cattable: test_iceberg
     extvolume: glueextvol
     metafilepath: metafilepath/
+    schedulePeriod: "6000"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    schrefresh: true
     tcatalog: AWS Glue
+    whName: COMPUTE_WH
   database: ""
   deployEnabled: true
   description: ""
@@ -50,7 +55,7 @@ operation:
   name: ICT_OS
   overrideSQL: false
   schema: ""
-  sqlType: "308"
+  sqlType: "307"
   type: sql
   version: 1
 type: Node
