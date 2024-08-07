@@ -17,7 +17,7 @@ operation:
   deployEnabled: true
   description: Lineitem data as defined by TPC-H
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []
