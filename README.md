@@ -76,7 +76,7 @@ This is executed as a single stage:
 
 * **Drop Iceberg Table**
   
-<h2 id="external-iceberg-table">Iceberg table with Task</h2>
+<h2 id="external-iceberg-table">External Iceberg table</h2>
 
 External Iceberg table node is an external iceberg table node wrapped with a task functionality.
 
