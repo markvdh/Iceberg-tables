@@ -66,7 +66,7 @@ If any changes in config options like external volume,baselocation ,node propert
 
 Changes in structured data type columns excluding any other config changes results in alter statements execution.
 
-* **Alter structured data type in Iceberg Table**:
+* **Alter structured data type in Iceberg Table**:This stage will execute `ALTER ICEBERG TABLE` statement and alters structured data types like OBJECT,MAP or ARRAY.
 
 ###  Snowflake Iceberg table Undeployment
 
@@ -177,7 +177,7 @@ For example, with the below setting for the parameter in a QA environment, the t
 
  ### External Iceberg table Initial Deployment
 
-When deployed for the first time into an environment the Work with Task node will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
+When deployed for the first time into an environment the External Iceberg table will execute three stages dependent on whether or not the task schedule relies on a predecessor task:
 
 #### External Iceberg table No Predecessor Task Deployment
 
