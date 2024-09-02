@@ -325,7 +325,7 @@ select 1 = 0
             {% endif %}
         {% endif %}
 
-        {%if currentState.node.location.name != desiredState.node.location.name or ns.targetlocationtest == false%}
+        {%if currentState.node.name != desiredState.node.name or ns.targetlocationtest == false%}
 
            {{ stage('Drop Iceberg Table at previous target location', true, "sql", "alter") }}
 

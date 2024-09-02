@@ -6,14 +6,17 @@ operation:
     awsSnsTopic: ""
     basename: ictjson
     cloudProvider: AWS
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
         - {}
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: 8141742e-ab9a-476c-b8f4-6fc829f1cc50
+            stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          sqlExpression: " trunc(TO_CHAR(\"LOAD_TIMESTAMP\"), -5)"
+    clusterKeyExpressions: true
     compression: ""
     dateformat: ""
     enforceLength: ""

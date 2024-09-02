@@ -154,12 +154,17 @@ select 1 = 0
                 {% endif %}
             {% endfor %}
 
-            {% set ns.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
+            {%if ns.nsDesiredSourceStorageLocations |length >0 %}
+               {% set ns.nsDesiredUsedStorageLocations = ns.nsDesiredSourceStorageLocations + ',' + ns.nsDesiredTargetStorageLocations %}
 
-            {% set ns.nsDesiredUsedStorageLocations = ns.nsDesiredSourceStorageLocations + ',' + ns.nsDesiredTargetStorageLocations %}
+                {% set desiredStorageLocations = (ns.nsDesiredUsedStorageLocations).split(',') | list %}
 
-            {% set desiredStorageLocations = (ns.nsDesiredUsedStorageLocations).split(',') | list %}
-            {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
+                {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
+            {%else%}
+
+                {% set desiredUniqueStorageLocations = ns.nsDesiredTargetStorageLocations %}
+
+            {%endif%}
 
         
         {%set ns.storageLocationTest = true %}
@@ -325,7 +330,7 @@ select 1 = 0
             {% endif %}
         {% endif %}
 
-        {%if currentState.node.location.name != desiredState.node.location.name or ns.targetlocationtest == false%}
+        {%if currentState.node.name != desiredState.node.name or ns.targetlocationtest == false%}
 
            {{ stage('Drop Iceberg Table at previous target location', true, "sql", "alter") }}
 
