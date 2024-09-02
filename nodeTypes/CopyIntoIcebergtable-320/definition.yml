@@ -7,7 +7,7 @@ metadata:
   nodeMetadataSpec: |
     capitalized: Copy Into Iceberg table
     short: 'ICT_COPY'
-    tagColor: '#DE1368'
+    tagColor: '#C2105B'
     isDisabled: false
     plural: Copy Into
 
@@ -103,7 +103,7 @@ metadata:
         isRequired: false  
         enableIf: "{% if config.intextstage %} false {% else %} true {% endif %}"
     	  
-      - displayName: Coalesce stage Storage Location
+      - displayName: Coalesce Storage Location of stage
         attributeName: stageStorageLocationName
         type: textBox
         default: 'Enter Storage Location name'
@@ -347,7 +347,7 @@ metadata:
 
     - displayName: SRC
       transform: '$1'
-      dataType: VARIANT
+      dataType: STRING
       placement: end
       attributeName: sysJSON
 
@@ -365,7 +365,7 @@ metadata:
 
     - displayName: FILE_ROW_NUMBER
       transform: 'METADATA$FILE_ROW_NUMBER'
-      dataType: NUMBER
+      dataType: BIGINT
       placement: end
       attributeName: sysFlRwNm
 

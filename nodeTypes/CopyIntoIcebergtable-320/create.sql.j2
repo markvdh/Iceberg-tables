@@ -6,8 +6,8 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 does not permit copying or modification for any other purpose.  
 #}
 {# == Node Type Version        : 1  == #}
-{# == Node Type Name           : Copy Into Iceberg tables == #}
-{# == Node Type Description    : This node helps to create a snowflake managed iceberg table and  data from files are loaded into iceberg tables == #}
+{# == Node Type Name           : Snowflake Iceberg tables == #}
+{# == Node Type Description    : This node helps to create a snowflake managed iceberg table and insert data from source table into iceberg tables == #}
 
 
 # Create table first
@@ -31,6 +31,11 @@ select 1 = 0
         #Baselocation
         {%if desiredState.config.basename != '' %}
             {%set baseloc =  desiredState.config.basename %}
+        {%endif%}
+
+        #Catalog sync
+        {%if desiredState.config.catint != '' and desiredState.config.tcatalog == 'Polaris' %}
+           {%set catsync = desiredState.config.catint %}
         {%endif%}
 
         #Figure out cluster key
@@ -86,11 +91,12 @@ select 1 = 0
         
           {%if desiredState.config.clusterKey == true%} {{ nsVariables.finalClusterKey }}   {%endif%}
     
-        
+         CATALOG  =   'SNOWFLAKE'
         {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
-        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%}
-        CATALOG  =   'SNOWFLAKE'
-        
+        {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%} 
+        {%if catsync != '' and desiredState.config.tcatalog == 'Polaris' %} CATALOG_SYNC = '{{catsync}}' {%endif%}
+
+
 	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'
       
     {% endif %}		    
@@ -193,8 +199,7 @@ select 1 = 0
         {%if tdesiredDatabaseSchema != tcurrentDatabaseSchema  %}
 
          {%set ns.targetlocationtest = false %}
-        {%endif%}
-
+        {%endif%}      
 
             {# Drop Columns #}
             
@@ -281,6 +286,11 @@ select 1 = 0
             {%set baseloc =  desiredState.config.basename %}
         {%endif%}
 
+        #Catalog sync
+        {%if desiredState.config.catint != '' and desiredState.config.tcatalog == 'Polaris' %}
+           {%set catsync = desiredState.config.catint %}
+        {%endif%}
+
         #Figure out cluster key
 
         {% set nsVariables = namespace(finalClusterKey="") %}
@@ -344,6 +354,7 @@ select 1 = 0
         
         {%if extvol != '' %} EXTERNAL_VOLUME = '{{extvol}}' {%endif%}
         {%if baseloc != '' %} BASE_LOCATION = '{{baseloc}}'{%endif%}
+        {%if catsync != '' and desiredState.config.tcatalog == 'Polaris' %} CATALOG_SYNC = '{{catsync}}' {%endif%}
         CATALOG  =   'SNOWFLAKE'
         
 	    {%- if desiredState.node.description | length > 0 %} COMMENT = '{{ desiredState.node.description | escape }}'	

@@ -6,8 +6,8 @@ metadata:
   error: null
   nodeMetadataSpec: |+
     capitalized: SNOWPIPE ICEBERG TABLE
-    short: 'COPY'
-    tagColor: '#6ca37b'
+    short: 'ICT_COPY'
+    tagColor: '#C2105B'
     isDisabled: false
     plural: Copy Into
 
@@ -141,8 +141,8 @@ metadata:
         attributeName: fileNames
         type: textBox
         isRequired: false
-        enableIf: "{% if config.flagSnowpipe != true %} true {% else %} false {% endif %}"
-
+        enableIf: "{% if config.flagSnowpipe != 'Enable Snowpipe' %} true {% else %} false {% endif %}"
+        
       - displayName: File Pattern (Optional - Ex:'.*hea.*[.]csv')
         attributeName: filePattern
         type: textBox
@@ -315,7 +315,7 @@ metadata:
 
     - displayName: SRC
       transform: '$1'
-      dataType: VARIANT
+      dataType: STRING
       placement: end
       attributeName: sysJSON
 
@@ -333,7 +333,7 @@ metadata:
 
     - displayName: FILE_ROW_NUMBER
       transform: 'METADATA$FILE_ROW_NUMBER'
-      dataType: NUMBER
+      dataType: BIGINT
       placement: end
       attributeName: sysFlRwNm
 
