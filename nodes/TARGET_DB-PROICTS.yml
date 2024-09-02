@@ -1,0 +1,91 @@
+fileVersion: 1
+id: 4bd1abbe-243f-460a-9f6f-37f19f9823b3
+name: PROICTS
+operation:
+  config:
+    basename: products
+    catint: polaris_int_tst
+    clusterKey: true
+    clusterKeyConfig:
+      items:
+        - columnName:
+            columnCounter: a541bb17-367c-48d5-9b7c-c5eca7f707d8
+            stepCounter: 4bd1abbe-243f-460a-9f6f-37f19f9823b3
+    clusterKeyConfigExpressions:
+      items:
+        - {}
+    clusterKeyExpressions: false
+    extvolume: sf_iceberg_polaristst
+    tcatalog: Polaris
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: a541bb17-367c-48d5-9b7c-c5eca7f707d8
+          stepCounter: 4bd1abbe-243f-460a-9f6f-37f19f9823b3
+        config: {}
+        dataType: VARCHAR(255)
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: bc1e06a0-b04d-40d8-8461-dd5476469a62
+                stepCounter: 7151715d-aa5b-4bfd-a308-2042e2efc01d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 07580c27-f6eb-441c-a034-a212152c7367
+          stepCounter: 4bd1abbe-243f-460a-9f6f-37f19f9823b3
+        config: {}
+        dataType: VARCHAR(100)
+        description: ""
+        name: BRAND
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 8fabaf69-73f0-46de-a2b5-3ddaa1eb6be6
+                stepCounter: 7151715d-aa5b-4bfd-a308-2042e2efc01d
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: b167a035-ce0a-4bcc-bb63-af598a024ce9
+          stepCounter: 4bd1abbe-243f-460a-9f6f-37f19f9823b3
+        config: {}
+        dataType: VARCHAR(50)
+        description: ""
+        name: COLOUR
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: 54643f0d-7349-4145-b34f-10b9dc5552f3
+                stepCounter: 7151715d-aa5b-4bfd-a308-2042e2efc01d
+            transform: ""
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases:
+          PRODUCTS: 7151715d-aa5b-4bfd-a308-2042e2efc01d
+        customSQL:
+          customSQL: ""
+        dependencies:
+          - locationName: SOURCE_DATA
+            nodeName: PRODUCTS
+        join:
+          joinCondition: FROM {{ ref('SOURCE_DATA', 'PRODUCTS') }} "PRODUCTS"
+        name: PROICTS
+        noLinkRefs: []
+  name: PROICTS
+  overrideSQL: false
+  schema: ""
+  sqlType: "305"
+  type: sql
+  version: 1
+type: Node

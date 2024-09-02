@@ -17,8 +17,14 @@ metadata:
     - groupName: Iceberg Options
       items:
 
-      - displayName: Snowflake catalog
-        type: label
+      - displayName: Type of catalog
+        attributeName: tcatalog
+        type: dropdownSelector
+        default: Snowflake
+        options:
+          - Snowflake
+          - Polaris
+        isRequired: true
       
       - displayName: Snowflake EXTERNAL VOLUME Name
         attributeName: extvolume
@@ -31,6 +37,11 @@ metadata:
         type: textBox
         isRequired: true
         default: "locname"
+      
+      - displayName: Catalog integration
+        attributeName: catint
+        type: textBox
+        enableIf: "{% if config.tcatalog == 'Polaris'  %} true {% else %} false {% endif %}"
 
       - type: toggleButton
         attributeName: clusterKey

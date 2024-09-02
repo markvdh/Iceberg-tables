@@ -1,0 +1,171 @@
+fileVersion: 1
+id: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+name: COPYICT_JSON
+operation:
+  config:
+    basename: COPYJSON
+    clusterKey: false
+    compression: ""
+    dateformat: ""
+    enforceLength: ""
+    errornumber: ""
+    externalURI: Enter external URI-Ex:s3://snowflake-docs
+    extlocation: false
+    extvolume: sficebergextvol1
+    fieldDelim: ","
+    fieldEnclosed: \042
+    fileFormatLoc: TARGET_DB
+    fileFormatName: jsonfleformat
+    fileFormatType: File Format Values
+    fileNames: "'emp.json'"
+    filePattern: ""
+    fileType: JSON
+    forceLoad: ""
+    intextstage: true
+    loadUncertainFiles: ""
+    onError: ""
+    purgeBehavior: ""
+    recDelim: |+
+
+    replaceinvalidcharacters: false
+    returnFailedOnly: ""
+    sizeLimit: ""
+    skipBlankLines: false
+    skipHeader: "1"
+    stageName: STAGE_LOCAL
+    stageStorageLocationName: SAMPLE_SOURCE
+    storageintegration: ""
+    stripouterarray: true
+    timeformat: ""
+    timestampformat: ""
+    trimSpace: false
+    truncateColumns: ""
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: d5e32614-4c76-4832-8ec9-d2e02f6302ef
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        name: SRC
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        sysJSON: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ce48a997-7600-4dd3-96ae-c7f4e523e99e
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: LOAD_TIMESTAMP
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: current_timestamp()::timestamp_ntz
+        sysLdTs: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ac60d6fd-2e3a-48eb-b0ae-0c59a4373e7e
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        name: FILENAME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILENAME
+        sysFlNm: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed23a4d3-0aab-44c7-95a3-17364ddecedd
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: FILE_ROW_NUMBER
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILE_ROW_NUMBER
+        sysFlRwNm: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 4a026971-313e-49d0-99b4-9d9357189574
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: FILE_LAST_MODIFIED
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$FILE_LAST_MODIFIED
+        sysFlLtMd: true
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: b4d818b1-80b4-4fba-a6db-8b22a6b561e2
+          stepCounter: a6c4459b-cd55-4d0a-98e0-b5b00a99da9a
+        config: {}
+        dataType: TIMESTAMP_NTZ
+        defaultValue: ""
+        description: ""
+        name: SCAN_TIME
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: METADATA$START_SCAN_TIME
+        sysFlScTm: true
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: COPYICT_JSON
+        noLinkRefs: []
+  name: COPYICT_JSON
+  overrideSQL: false
+  schema: ""
+  sqlType: "320"
+  type: sql
+  version: 1
+type: Node
