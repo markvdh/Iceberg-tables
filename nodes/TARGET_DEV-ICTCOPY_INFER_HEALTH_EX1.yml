@@ -3,7 +3,7 @@ id: e9c0f569-3312-4420-b2e2-c19155d98aa2
 name: ICTCOPY_INFER_HEALTH_EX1
 operation:
   config:
-    basename: HEALTHCSVICT1
+    basename: HEALTHCSVICTEX1
     catint: null
     clusterKey: true
     clusterKeyConfig:
@@ -56,7 +56,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []

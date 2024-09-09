@@ -3,7 +3,7 @@ id: e0d9f764-6b20-4165-9c5c-4071ae466957
 name: ICT_COPY_EXPOLARIS
 operation:
   config:
-    basename: HEALTHPOLARIS
+    basename: HEALTHPOLARIS1
     catint: polaris_int_tst
     clusterKey: false
     clusterKeyConfig:
@@ -53,7 +53,7 @@ operation:
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
+  locationName: TARGET_DEV
   materializationType: table
   metadata:
     appliedNodeTests: []

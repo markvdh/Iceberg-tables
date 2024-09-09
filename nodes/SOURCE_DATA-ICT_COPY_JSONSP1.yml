@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
-name: ICT_COPY_JSONSP
+name: ICT_COPY_JSONSP1
 operation:
   config:
     awsSnsTopic: ""
@@ -167,9 +167,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_COPY_JSONSP
+        name: ICT_COPY_JSONSP1
         noLinkRefs: []
-  name: ICT_COPY_JSONSP
+  name: ICT_COPY_JSONSP1
   overrideSQL: false
   schema: ""
   sqlType: "321"
