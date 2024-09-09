@@ -1,5 +1,5 @@
 fileVersion: 1
-id: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+id: 3df6be92-20a5-4d38-97ef-9579a4a372b8
 name: SAMPLE_ARRAY
 operation:
   database: ""
@@ -14,8 +14,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: d8f84800-41e8-4e7f-8642-499d62c0f83b
-          stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+          columnCounter: adfa20a7-f541-44b8-b00b-91be60346c14
+          stepCounter: 3df6be92-20a5-4d38-97ef-9579a4a372b8
         config: {}
         dataType: NUMBER(38,0)
         defaultValue: ""
@@ -33,8 +33,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: fae89c7d-e094-497c-85ad-8c19bf86d527
-          stepCounter: 608bc605-b6c5-43b4-bf51-f2a65ba66f98
+          columnCounter: 4b400fdc-d952-4a67-ad1d-e2b1a02d5fb1
+          stepCounter: 3df6be92-20a5-4d38-97ef-9579a4a372b8
         config: {}
         dataType: ARRAY
         defaultValue: ""

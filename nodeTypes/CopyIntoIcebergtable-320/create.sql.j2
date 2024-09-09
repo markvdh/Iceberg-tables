@@ -6,8 +6,8 @@ Coalesce permits you to copy and modify this script for the purposes of using wi
 does not permit copying or modification for any other purpose.  
 #}
 {# == Node Type Version        : 1  == #}
-{# == Node Type Name           : Snowflake Iceberg tables == #}
-{# == Node Type Description    : This node helps to create a snowflake managed iceberg table and insert data from source table into iceberg tables == #}
+{# == Node Type Name           : Copy-Into Iceberg tables == #}
+{# == Node Type Description    : This node creates an Iceberg target table to load data from internal or external stages using Copy-Into == #}
 
 
 # Create table first
@@ -127,61 +127,9 @@ select 1 = 0
     colchangescdt = 0,
     acolchanges = 0,
     dcolchanges = 0,
-    nsDesiredDepStorageLocations = "",
-    nsDesiredSourceStorageLocations = "",
-    nsDesiredTargetStorageLocations = "",
-    nsDesiredUsedStorageLocations = "",
-    storageLocationTest = true,
     targetlocationtest =true
 ) %}
             
-            {# Storage Location Tests #}
-            {% for source in desiredState.sources %}
-                {% for dep in source.dependencies %}
-                    {% set depSourceLocation = dep.node.location.name %}
-                    
-                    {% if loop.first %}
-                        {% set ns.nsDesiredDepStorageLocations = depSourceLocation %}
-                    {% else %}
-                        {% set ns.nsDesiredDepStorageLocations = ns.nsDesiredDepStorageLocations + ',' + depSourceLocation %}
-                    {% endif %}
-                {% endfor %}
-                
-                {% if loop.first %}
-                    {% set ns.nsDesiredSourceStorageLocations = ns.nsDesiredDepStorageLocations %}
-                {% else %}
-                    {% set ns.nsDesiredSourceStorageLocations = ns.nsDesiredSourceStorageLocations + ',' + ns.nsDesiredDepStorageLocations %}
-                {% endif %}
-            {% endfor %}
-
-            {% set ns.nsDesiredTargetStorageLocations = desiredState.node.location.name  %}
-
-            {% set ns.nsDesiredUsedStorageLocations = ns.nsDesiredSourceStorageLocations + ',' + ns.nsDesiredTargetStorageLocations %}
-
-            {% set desiredStorageLocations = (ns.nsDesiredUsedStorageLocations).split(',') | list %}
-            {% set desiredUniqueStorageLocations = desiredStorageLocations | unique | sort | list %}
-
-        
-        {%set ns.storageLocationTest = true %}
-        
-        {% for name in desiredUniqueStorageLocations %}
-            ## Current mappings
-            
-            {%if name in currentState.storgeLocations%}
-            {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-            {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-            {% set currentDatabaseSchema = currentDatabase + '.' + currentSchema %}  
-            {%endif%}        
-            ## Desired mappings
-            {% set desiredDatabase = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
-            {% set desiredSchema = desiredState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}
-            {% set desiredDatabaseSchema = desiredDatabase + '.' + desiredSchema %}
-             
-            {% if currentDatabaseSchema != desiredDatabaseSchema %}
-                {% set ns.storageLocationTest = false %}
-            {% endif %}
-        {% endfor %}
-
         {#Target location test#}
          {%set currenttargetlocation = currentState.node.location.name %}
          {%set desiredtargetlocation = desiredState.node.location.name %}
@@ -266,7 +214,7 @@ select 1 = 0
 
         {# Create Iceberg table-redeployment #}
 
-{% if  currentState.node.name != desiredState.node.name or currentState.node.location.name!= desiredState.node.location.name or baseloctest == false  or ns.colchanges > 0 or ns.acolchanges >0 or ns.dcolchanges > 0 or nodeCommentTest == false or extvoltest == false or clusterTest == false or ns.storageLocationTest == false or ns.targetlocationtest  == false%}
+{% if  currentState.node.name != desiredState.node.name or currentState.node.location.name!= desiredState.node.location.name or baseloctest == false  or ns.colchanges > 0 or ns.acolchanges >0 or ns.dcolchanges > 0 or nodeCommentTest == false or extvoltest == false or clusterTest == false or  ns.targetlocationtest  == false%}
 
                 
           {%set extvol = '' %}

@@ -15,6 +15,7 @@ operation:
         - {}
     clusterKeyExpressions: false
     extvolume: sficebergextvol1
+    tcatalog: Snowflake
   database: ""
   deployEnabled: true
   description: Snowflake iceberg table
