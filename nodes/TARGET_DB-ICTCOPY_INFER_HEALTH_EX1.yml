@@ -1,18 +1,21 @@
 fileVersion: 1
 id: e9c0f569-3312-4420-b2e2-c19155d98aa2
-name: ICTCOPY_INFER_HEALTH_EX
+name: ICTCOPY_INFER_HEALTH_EX1
 operation:
   config:
     basename: HEALTHCSVICT1
     catint: null
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
         - {}
     clusterKeyConfigExpressions:
       items:
-        - {}
-    clusterKeyExpressions: false
+        - columnNameExpressions:
+            columnCounter: ccf32335-a509-4d89-9c06-e7d4a65ca25c
+            stepCounter: e9c0f569-3312-4420-b2e2-c19155d98aa2
+          sqlExpression: substr("Bachelor's_or_Higher", 1,5)
+    clusterKeyExpressions: true
     compression: ""
     dateformat: ""
     enforceLength: ""
@@ -505,9 +508,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICTCOPY_INFER_HEALTH_EX
+        name: ICTCOPY_INFER_HEALTH_EX1
         noLinkRefs: []
-  name: ICTCOPY_INFER_HEALTH_EX
+  name: ICTCOPY_INFER_HEALTH_EX1
   overrideSQL: false
   schema: ""
   sqlType: "320"
