@@ -46,7 +46,7 @@ operation:
           columnCounter: a6695064-f3ae-4394-a21b-4e6634bf3f46
           stepCounter: d2e98ab4-890c-4149-ae21-aa5103e23b2d
         config: {}
-        dataType: OBJECT(       age1 number(38,0),       city string)
+        dataType: OBJECT(       age number(38,0),       city string,name string         )
         description: ""
         name: DATA
         nullable: true

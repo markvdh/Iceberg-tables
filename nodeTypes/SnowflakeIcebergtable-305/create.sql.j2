@@ -160,6 +160,7 @@ select 1 = 0
         
         {% for name in desiredUniqueStorageLocations %}
             ## Current mappings
+            
             {%if name in currentState.storgeLocations%}
             {% set currentDatabase = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='database') | first %}
             {% set currentSchema = currentState.storageLocations | selectattr('name', 'equalto', name) | map(attribute='schema') | first %}

@@ -4,10 +4,12 @@ name: ICT_LINE
 operation:
   config:
     basename: LINE12
-    clusterKey: false
+    clusterKey: true
     clusterKeyConfig:
       items:
-        - {}
+        - columnName:
+            columnCounter: 94385d62-458c-4f6d-88de-96571cd62d46
+            stepCounter: 1c5a21c2-3c2e-4439-a9b8-e9d9976910da
     clusterKeyConfigExpressions:
       items:
         - {}
@@ -15,7 +17,7 @@ operation:
     extvolume: sficebergextvol1
   database: ""
   deployEnabled: true
-  description: ""
+  description: Snowflake iceberg table
   isMultisource: false
   locationName: TARGET_DB
   materializationType: table

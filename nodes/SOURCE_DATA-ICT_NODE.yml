@@ -1,0 +1,64 @@
+fileVersion: 1
+id: 919b5ec6-b262-4bda-ac55-d1eef767efc8
+name: ICT_NODE
+operation:
+  config:
+    catdb: ""
+    catint: iceberg_glue_catalog
+    cattable: glue_iceberg_table
+    extvolume: iceberg_glue_external_volume
+    metafilepath: metafilepath/
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Minutes
+    schedulingMode: Warehouse Task
+    schrefresh: true
+    serverlessSize: XSMALL
+    tcatalog: AWS Glue
+    whName: compute_wh
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SOURCE_DATA
+  materializationType: task
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 0e80361c-3e9e-4ede-ba7a-c3b5cae523ed
+          stepCounter: 919b5ec6-b262-4bda-ac55-d1eef767efc8
+        config: {}
+        dataType: STRING
+        defaultValue: ""
+        description: ""
+        dummycolumn: true
+        name: DATA
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: This column is not part of target iceberg table
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: ICT_NODE
+        noLinkRefs: []
+  name: ICT_NODE
+  overrideSQL: false
+  schema: ""
+  sqlType: "307"
+  type: sql
+  version: 1
+type: Node
