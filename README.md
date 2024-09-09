@@ -18,7 +18,7 @@ An Iceberg table that uses Snowflake as the Iceberg catalog provides full Snowfl
 
 * The Role we mention in the Workspace and Environment properties of Coalesce should be `ACCOUNTADMIN` in order to successfully create a  Iceberg table.
 * An EXTERNAL VOLUME is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
-* In case of creating a Snowflake Isceberg table with structured column type like `OBJECT`, `MAP` or `ARRAY`. Ensure the data type is updated with the appropriate structure. For example,the source Snowflake table has OBJECT data type,then the data type of the same column in the Iceberg table node added on top is expected to structured type OBJECT (age string,id number) based on the data it has.
+* In case of creating a Snowflake Iceberg table with structured column type like `OBJECT`, `MAP` or `ARRAY`. Ensure the data type is updated with the appropriate structure. For example,the source Snowflake table has OBJECT data type,then the data type of the same column in the Iceberg table node added on top is expected to structured type OBJECT (age string,id number) based on the data it has.
 
 ### Snowflake Iceberg Table Configuration
 
@@ -40,7 +40,7 @@ There are four configs within the **Node Properties** group.
 
 <h3 id="snowflake-iceberg-table-options">Iceberg Options</h3>
 
-* **Type of Catalog**:
+* **Type of Catalog**:Specify the type of catalog.
      * Snowflake
      * Polaris
 * **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in snowflake as a prerequisite.
@@ -249,7 +249,11 @@ If a task is part of a DAG of tasks the DAG needs to include a node type called 
 ### Copy-Into Iceberg Table Prerequisites
 
     * The Role in the Workspace and Environment properties of Coalesce should be `ACCOUNTADMIN` inorder to successfully create an  Iceberg table. You can also grant `SYSADMIN` roles to `EXTERNAL VOLUME`, `CATALOG INTEGRATION`created.
-    * An `EXTERNAL VOLUME`, `CATALOG INTEGRATION` is expected to be created in Snowflake at the Storage Location chosen in the Node properties.}   -- To be changed
+    * An `EXTERNAL VOLUME`, `CATALOG INTEGRATION` is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
+    * In case of creating a Snowflake Iceberg table with structured column type like `OBJECT`, `MAP` or `ARRAY`. Ensure the data type is updated with the appropriate structure. For example,the source Snowflake table has OBJECT data type,then the data type of the same column in the Iceberg table node added on top is expected to structured type OBJECT (age string,id number) based on the data it has.
+    * CopyInto node can be created by just clicking on Create node from browser if we want the data from the file to be loaded into single string column in target table.Ensure to change the data type of the column to structured object to derive the columns in further steps.
+    * CopyInto node can be added on top of an inferred table(table created by running the inferschema node) if you want to load data into specific columns as defined in the files.Refer to [Inferschema](https://github.com/coalesceio/External-Data-Package/blob/main/README.md#inferschema) to know more on how to use the node and add Copy-Into on top of it.
+
 
 ### Copy-Into Iceberg Table Configuration
 
@@ -285,23 +289,16 @@ There are four configs within the **Node Properties** group.
   
 <h3 id="copy-into-iceberg-table-source-data">Copy-Into Iceberg Table Iceberg Options</h3>
 
-    {![Copy-Into File location](https://github.com/user-attachments/assets/3f95f8d0-3c23-4a46-8242-fb81989c523b)} -- to be changed
-
 * **Internal or External Stage**
   * **Coalesce Storage Location of Stage**: A storage location in Coalesce where the stage is located.
   * **Stage Name (Required)**: Internal or External stage where the files containing data to be loaded are staged
   * **File Name(s)(Optional - Ex:'a.csv','b.csv')**: Specifies a list of one or more files names (separated by commas) to be loaded
   * **File Pattern (Optional - Ex:'.*hea.*[.]csv')**: A regular expression pattern string, enclosed in single quotes, specifying the file names or paths to match.
-  
-        {![CopyInto-file location2](https://github.com/user-attachments/assets/0c5949c4-0286-4250-91cf-38325e2c312a)}-- to be changed
-
 * **External location**
   * **External URI**: Enter the URI of the External location
   * **Storage Integration**: Specifies the name of the storage integration used to delegate authentication responsibility for external cloud storage to a Snowflake identity and access management (IAM) entity
 
 <h3 id="copy-into-iceberg-file-format"> CopyInto Iceberg - File Format </h3>
-
-    {![copy-into-iceberg-file-format](https://github.com/user-attachments/assets/2a737c5f-3bb3-471a-9365-bf3251677415)}--to be changed
 
 * **File Format Definition - File Format Name**:
   * **File Format Name**: Specifies an existing named file format to use for loading data into the table.
@@ -427,6 +424,14 @@ If the Copy-Into Iceberg node is deleted from a Workspace, that Workspace is com
     [Snowpipe](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro) enables loading data from files as soon as they’re available in a stage. 
 
     This means you can load data from files in micro-batches, making it available to users within minutes, rather than manually executing COPY statements on a schedule to load larger batches.
+
+### Snowpipe Iceberg Prerequisites
+
+* The Role in the Workspace and Environment properties of Coalesce should be `ACCOUNTADMIN` inorder to successfully create an  Iceberg table. You can also grant `SYSADMIN` roles to `EXTERNAL VOLUME`, `CATALOG INTEGRATION`created.
+    * An `EXTERNAL VOLUME`, `CATALOG INTEGRATION` is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
+    * In case of creating a Snowflake Iceberg table with structured column type like `OBJECT`, `MAP` or `ARRAY`. Ensure the data type is updated with the appropriate structure. For example,the source Snowflake table has OBJECT data type,then the data type of the same column in the Iceberg table node added on top is expected to structured type OBJECT (age string,id number) based on the data it has.
+    * Snowpipe node can be created by just clicking on Create node from browser if we want the data from the file to be loaded into single string column in target table.Ensure to change the data type of the column to structured object to derive the columns in further steps.
+    * Snowpipe node can be added on top of an inferred table(table created by running the inferschema node) if you want to load data into specific columns as defined in the files.Refer to [Inferschema](https://github.com/coalesceio/External-Data-Package/blob/main/README.md#inferschema) to know more on how to use the node and add Copy-Into on top of it.
 
 ### Snowpipe Iceberg Node Configuration
 
@@ -649,3 +654,13 @@ This is executed in two stages:
 
 * [Node definition](https://github.com/coalesceio/Iceberg-tables/blob/main/nodeTypes/ExternalIcebergtable-307/definition.yml)
 * [Create Template](https://github.com/coalesceio/Iceberg-tables/blob/main/nodeTypes/ExternalIcebergtable-307/create.sql.j2)
+
+## Copy-Into Iceberg table
+
+*[Node definition](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/CopyIntoIcebergtable-320)
+*[Create Template](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/CopyIntoIcebergtable-320)
+
+## Snowpipe Iceberg table
+
+*[Node definition](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/SnowpipeIcebergtable-321)
+*[Create Template](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/SnowpipeIcebergtable-321)
