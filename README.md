@@ -8,8 +8,6 @@ The Iceberg Tables Package includes:
 * [Snowpipe Iceberg table](#snowpipe-iceberg-table)
 * [Code](#code)
 
-* [Code](#code)
-
 <h2 id="snowflake-iceberg-table">Snowflake Iceberg table</h2>
 
 An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats. [Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you can't, or choose not to, store in Snowflake.
