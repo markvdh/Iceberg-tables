@@ -4,6 +4,10 @@ The Iceberg Tables Package includes:
 
 * [Snowflake Iceberg table](#snowflake-iceberg-table)
 * [External Iceberg table](#external-iceberg-table)
+* [Copy-Into Iceberg table](#copy-into-iceberg-table)
+* [Snowpipe Iceberg table](#snowpipe-iceberg-table)
+* [Code](#code)
+
 * [Code](#code)
 
 <h2 id="snowflake-iceberg-table">Snowflake Iceberg table</h2>
@@ -233,6 +237,393 @@ This is executed in the below stages:
 If a task is part of a DAG of tasks the DAG needs to include a node type called **Task Dag Resume Root**. This node will resume the root node once all the dependent tasks have been created as part of a deployment.
 
 <h1 id="code">Code</h1>
+
+<h2 id="copy-into-iceberg-table">Copy-Into Iceberg table</h2>
+
+    Copy-Into Iceberg table node creates an Iceberg table where data is loaded from files in external stage using Copy-Into.
+
+       An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats. [Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
+       
+### Copy-Into Iceberg Table Prerequisites
+
+    * The Role in the Workspace and Environment properties of Coalesce should be `ACCOUNTADMIN` inorder to successfully create an  Iceberg table. You can also grant `SYSADMIN` roles to `EXTERNAL VOLUME`, `CATALOG INTEGRATION`created.
+    * An `EXTERNAL VOLUME`, `CATALOG INTEGRATION` is expected to be created in Snowflake at the Storage Location chosen in the Node properties.}   -- To be changed
+
+### Copy-Into Iceberg Table Configuration
+
+The Copy-Into Iceberg table has five configuration groups:
+
+* [Copy-Into Iceberg Table Node Properties](#copy-into-iceberg-table-node-properties)
+* [Copy-Into Iceberg Table Iceberg Options](#copy-into-iceberg-table-iceberg-options)
+* [Copy-Into Iceberg Table Source Data](#copy-into-iceberg-table-source-data)
+* [Copy-Into Iceberg Table File Format](#copy-into-iceberg-table-file-format)
+* [Copy-Into Iceberg Table Copy Options](#copy-into-iceberg-table-copy-options)
+
+<h3 id="copy-into-iceberg-table-node-properties">Copy-Into Iceberg Table Node Properties</h3>
+
+There are four configs within the **Node Properties** group.
+
+* **Storage Location(required)**: Storage Location where the target table will be created.
+* **Node Type(required)**: Name of template used to create node objects.
+* **Description**: A description of the node's purpose.
+* **Deploy Enabled(required)**:
+  * If TRUE the node will be deployed or redeployed when changes are detected.
+  * If FALSE the node will not be deployed or the node will be dropped during redeployment.
+
+<h3 id="copy-into-iceberg-table-iceberg-options">Copy-Into Iceberg Table Iceberg Options</h3>
+
+* **Type of catalog**: Specify the type of catalog.
+       * Snowflake
+       * Polaris
+* **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite.
+* **Base location name**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.
+* **Cluster Key**: Cluster key Toggle while Enabled allows us to create subset of columns in a table that are explicitly designated to co-locate the data in the table in the same micro-partitions
+  * **Allow Expressions in Cluster Key**: Toggle while Enabled allows you to write expressions 
+  
+<h3 id="copy-into-iceberg-table-source-data">Copy-Into Iceberg Table Iceberg Options</h3>
+
+    {![Copy-Into File location](https://github.com/user-attachments/assets/3f95f8d0-3c23-4a46-8242-fb81989c523b)} -- to be changed
+
+* **Internal or External Stage**
+  * **Coalesce Storage Location of Stage**: A storage location in Coalesce where the stage is located.
+  * **Stage Name (Required)**: Internal or External stage where the files containing data to be loaded are staged
+  * **File Name(s)(Optional - Ex:'a.csv','b.csv')**: Specifies a list of one or more files names (separated by commas) to be loaded
+  * **File Pattern (Optional - Ex:'.*hea.*[.]csv')**: A regular expression pattern string, enclosed in single quotes, specifying the file names or paths to match.
+  
+        {![CopyInto-file location2](https://github.com/user-attachments/assets/0c5949c4-0286-4250-91cf-38325e2c312a)}-- to be changed
+
+* **External location**
+  * **External URI**: Enter the URI of the External location
+  * **Storage Integration**: Specifies the name of the storage integration used to delegate authentication responsibility for external cloud storage to a Snowflake identity and access management (IAM) entity
+
+<h3 id="copy-into-iceberg-file-format"> CopyInto Iceberg - File Format </h3>
+
+    {![copy-into-iceberg-file-format](https://github.com/user-attachments/assets/2a737c5f-3bb3-471a-9365-bf3251677415)}--to be changed
+
+* **File Format Definition - File Format Name**:
+  * **File Format Name**: Specifies an existing named file format to use for loading data into the table.
+  * **Coalesce Storage Location of File Format**:Location in Coalesce pointing to the database and schema,the file format resides.
+  * **File Type**:
+    * CSV
+    * JSON
+    * ORC
+    * AVRO
+    * PARQUET
+    * XML
+* **File Format Definition - File Format Values**: 
+  * **File Format Values** -Provides file format options for the File Type chosen.
+  * **File Type**: Each file type has different configurations available.
+    * **CSV**
+    * **Compression**: String (constant) that specifies the current compression algorithm for the data files to be loaded.
+    * **Record delimiter**:Characters that separate records in an input file
+    * **Field delimiter**:One or more singlebyte or multibyte characters that separate fields in an input file
+    * **Field optionally enclosed by**:Character used to enclose strings
+    * **Number of header lines to skip**:Number of lines at the start of the file to skip.
+    * **Skip blank lines**:Boolean that specifies to skip any blank lines encountered in the data files.
+    * **Trim Space**: Boolean that specifies whether to remove white space from fields.
+    * **Replace invalid characters**: Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **Date format**:String that defines the format of date values in the data files to be loaded. 
+    * **Time format**: String that defines the format of time values in the data files to be loaded
+    * **Timestamp format**:String that defines the format of timestamp values in the data files to be loaded.
+    * **JSON**
+      * **Compression**: String (constant) that specifies the current compression algorithm for the data files to be loaded.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Strip Outer Array**:Boolean that instructs the JSON parser to remove outer brackets [ ].
+      * **Date format**:String that defines the format of date values in the data files to be loaded. 
+      * **Time format**:String that defines the format of time values in the data files to be loaded
+      * **Timestamp format**: String that defines the format of timestamp values in the data files to be loaded.
+    * **ORC**
+      * **Trim Space** - Specifies whether to remove white space from fields
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **AVRO**
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **PARQUET**
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **XML**
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+      
+
+<h3 id="copy-into-iceberg-copy-options"> Copy-Into Iceberg Copy Options </h3>
+
+* **On Error Behavior**:String (constant) that specifies the error handling for the load operation.
+  * CONTINUE
+  * SKIP_FILE
+  * SKIP_FILE_num
+  * SKIP_FILE_num%
+  * ABORT_STATEMENT
+* **Specify the number of errors that can be skipped**: Required when On Error Behavior is either `SKIP_FILE_num` or `SKIP_FILE_num%`. Specify the number of errors that can be skipped.
+* **Size Limit**: Number (> 0) that specifies the maximum size (in bytes) of data to be loaded for a given COPY statement.
+* **Purge Behavior**: Boolean that specifies whether to remove the data files from the stage automatically after the data is loaded successfully.
+* **Return Failed Only**: Boolean that specifies whether to return only files that have failed to load in the statement result.
+* **Force**: Boolean that specifies to load all files, regardless of whether they’ve been loaded previously and have not changed since they were loaded. 
+* **Load Uncertain Files**: Boolean that specifies to load files for which the load status is unknown. The COPY command skips these files by default.
+* **Enforce Length**: Boolean that specifies whether to truncate text strings that exceed the target column length
+* **Truncate Columns**: Boolean that specifies whether to truncate text strings that exceed the target column length
+
+### Copy-Into Iceberg System Columns
+
+The set of columns which has source data and file metadata information.
+
+* **SRC** - The data from the file is loaded into this variant column.
+* **LOAD_TIMESTAMP** - Current timestamp when the file gets loaded.
+* **FILENAME** - Name of the staged data file the current row belongs to. Includes the full path to the data file.
+* **FILE_ROW_NUMBER** - Row number for each record in the staged data file.
+* **FILE_LAST_MODIFIED** - Last modified timestamp of the staged data file the current row belongs to
+* **SCAN_TIME** - Start timestamp of operation for each record in the staged data file. Returned as TIMESTAMP_LTZ.
+
+
+### Copy-Into Iceberg Deployment
+
+#### Copy-Into Iceberg Deployment Parameters
+
+The Copy-Into Iceberg includes an environment parameter that allows you to specify if you want to perform a full load or a reload based on the load type when you are performing a copy-into-iceberg operation.
+
+The parameter name is `loadType` and the default value is ``.
+
+```json
+{
+    "loadType": ""
+}
+```
+
+When the parameter value is set to `Reload`, the data is reloaded into the table regardless of whether they’ve been loaded previously and have not changed since they were loaded.
+
+#### Copy-Into Iceberg Initial Deployment
+When deployed for the first time into an environment the copy-into Iceberg node of materialization type table will execute the below stage:
+
+**Create table/transient table**
+This will execute a CREATE OR REPLACE statement and create a table or transient table in the target environment.
+
+
+### Copy-Into Iceberg Redeployment
+
+#### Altering the Copy-Into Iceberg Tables
+
+There are few column or table changes like Change in table name,Dropping existing column, Alter Column data type,Adding a new column if made in isolation or all-together will result in an Create statement to modify the Work Table in the target environment.
+
+The following stages are executed:
+
+* **Create Iceberg table**: Create table statement is executed to perform the alter operation.
+
+
+### Copy-Into Iceberg Undeployment
+
+If the Copy-Into Iceberg node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then the target table in the target environment will be dropped.
+
+* **Drop table/transient table**: Target table in Snowflake is dropped
+
+
+<h2 id="snowpipe-iceberg-table">Snowpipe Iceberg Table</h2>
+
+   The Coalesce Snowpipe Iceberg node is a node that creates an Iceberg table and performs two operations. It can be used to load historical data using     
+     [CopyInto](https://docs.snowflake.com/en/sql-reference/sql/copy-into-table). Also the Snowpipe node can be used to create a pipe to auto ingest files from AWS, GCP, or Azure.
+
+    [Snowpipe](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro) enables loading data from files as soon as they’re available in a stage. 
+
+    This means you can load data from files in micro-batches, making it available to users within minutes, rather than manually executing COPY statements on a schedule to load larger batches.
+
+### Snowpipe Iceberg Node Configuration
+
+The Snowpipe Iceberg node type has five configurations groups:
+
+* [Snowpipe Iceberg Node Properties](#snowpipe-iceberg-node-properties)
+* [Snowpipe Iceberg Snowpipe Options](#snowpipe-iceberg-snowpipe-options)
+* [Snowpipe Iceberg File Location](#snowpipe-iceberg-file-location)
+* [Snowpipe Iceberg File Format](#snowpipe-iceberg-file-format)
+* [Snowpipe Iceberg Copy Options](#snowpipe-iceberg-copy-options)
+
+<h3 id="snowpipe-iceberg-node-properties">Snowpipe Iceberg Node Properties</h3>
+
+* **Storage Location**: Storage Location where the target table will be created.
+* **Node Type**: Name of template used to create node objects.
+* **Description**: A description of the node's purpose.
+* **Deploy Enabled**:
+  * If TRUE the node will be deployed / redeployed when changes are detected.
+  * If FALSE the node will not be deployed or will be dropped during redeployment.
+
+<h3 id="snowpipe-iceberg-snowpipe-options"> Options </h3>
+
+* **Enable Snowpipe**: Drop down that helps us to create a pipe to auto ingest files from external stage or validate the Copy-Into statement.
+  * Enable Snowpipe - Load data auto ingesting files from AWS, Azure, or GCP. Choose your **Cloud Provider.**
+    * AWS - AWS SNS Topic. Specifies the Amazon Resource Name (ARN) for the SNS topic for your S3 bucket.
+    * Azure - Integration. Specifies the existing notification integration used to access the storage queue.
+    * GCP -  Integration. Specifies the existing notification integration used to access the storage queue.
+  * Test Copy Statement - To validate the Copy-into statement before we use it to create PIPE
+* **Load historical data**:Loads the historic data into the target table by executing a COPY_INTO statement.
+
+<h3 id="snowpipe-iceberg-file-location"> File Location </h3>
+
+* **Coalesce Stage Storage Location of stage(Required)**: A storage location in Coalesce where the stage is located.
+* **Stage Name (Required)**: Internal or External stage where the files containing data to be loaded are staged.
+* **File Names**: Enabled when 'Enable Snowpipe' under Snowpipe Options is toggled off. Specifies a list of one or more files names (separated by commas) to be loaded. For example, `'a.csv','b.csv'`.
+* **File Pattern**:A regular expression pattern string, enclosed in single quotes, specifying the file names or paths to match. For example, `*hea.*[.]csv'`.
+  
+<h3 id="snowpipe-iceberg-file-format"> File Format </h3>
+
+* **File Format Definition - File Format Name**:
+  * **File Format Name**: Specifies an existing named file format to use for loading data into the table.
+  * **Coalesce Storage Location of File Format**: File format location in snowflake that is mapped as storage location in Coalesce
+  * **File Type**:
+    * CSV
+    * JSON
+    * ORC
+    * AVRO
+    * PARQUET
+    * XML
+* **File Format Definition - File Format Values**: 
+  * **File Format Values** -Provides file format options for the File Type chosen.
+  * **File Type**: Each file type has different configurations available.
+    * **CSV**
+    * **Compression**: String (constant) that specifies the current compression algorithm for the data files to be loaded.
+    * **Record delimiter**:Characters that separate records in an input file
+    * **Field delimiter**:One or more singlebyte or multibyte characters that separate fields in an input file
+    * **Field optionally enclosed by**:Character used to enclose strings
+    * **Number of header lines to skip**:Number of lines at the start of the file to skip.
+    * **Skip blank lines**:Boolean that specifies to skip any blank lines encountered in the data files.
+    * **Trim Space**: Boolean that specifies whether to remove white space from fields.
+    * **Replace invalid characters**: Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **Date format**:String that defines the format of date values in the data files to be loaded. 
+    * **Time format**: String that defines the format of time values in the data files to be loaded
+    * **Timestamp format**:String that defines the format of timestamp values in the data files to be loaded.
+    * **JSON**
+      * **Compression**: String (constant) that specifies the current compression algorithm for the data files to be loaded.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Strip Outer Array**:Boolean that instructs the JSON parser to remove outer brackets [ ].
+      * **Date format**:String that defines the format of date values in the data files to be loaded. 
+      * **Time format**:String that defines the format of time values in the data files to be loaded
+      * **Timestamp format**: String that defines the format of timestamp values in the data files to be loaded.
+    * **ORC**
+      * **Trim Space** - Specifies whether to remove white space from fields
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **AVRO**
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **PARQUET**
+      * **Trim Space** - Boolean that specifies whether to remove white space from fields.
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+    * **XML**
+      * **Replace invalid characters** - Boolean that specifies whether to replace invalid UTF-8 characters with the Unicode replacement character.
+
+<h3 id="snowpipe-iceberg-copy-options"> Copy Options </h3>
+
+    {![snowpipe-iceberg-copy-options](https://github.com/user-attachments/assets/ae640901-16ce-4ed2-8e6c-efae278d3942)} 
+
+If you toggle Enable Snowipe under Snowpipe Options to *ON*, these configuration options are available.
+
+* **On Error Behavior**: String (constant) that specifies the error handling for the load operation.
+  * CONTINUE
+  * SKIP_FILE
+  * SKIP_FILE_num
+    * Specify the number of errors that can be skipped.
+  * SKIP_FILE_num%
+    * Specify the number of errors that can be skipped.
+* **Enforce Length**: Boolean that specifies whether to truncate text strings that exceed the target column length.
+* **Truncate Columns**: Boolean that specifies whether to truncate text strings that exceed the target column length.
+
+If you toggle Enable Snowpipe under Snowpipe Options to *OFF*, these configuration options are available.
+
+* **On Error Behavior**:String (constant) that specifies the error handling for the load operation.
+  * CONTINUE
+  * SKIP_FILE
+  * SKIP_FILE_num
+  * SKIP_FILE_num%
+  * ABORT_STATEMENT
+* **Specify the number of errors that can be skipped**: Required when On Error Behavior is either `SKIP_FILE_num` or `SKIP_FILE_num%`. Specify the number of errors that can be skipped.
+* **Size Limit**: Number (> 0) that specifies the maximum size (in bytes) of data to be loaded for a given COPY statement.
+* **Purge Behavior**: Boolean that specifies whether to remove the data files from the stage automatically after the data is loaded successfully.
+* **Return Failed Only**: Boolean that specifies whether to return only files that have failed to load in the statement result.
+* **Force**: Boolean that specifies to load all files, regardless of whether they’ve been loaded previously and have not changed since they were loaded. 
+* **Load Uncertain Files**: Boolean that specifies to load files for which the load status is unknown. The COPY command skips these files by default.
+* **Enforce Length**: Boolean that specifies whether to truncate text strings that exceed the target column length
+* **Truncate Columns**: Boolean that specifies whether to truncate text strings that exceed the target column length
+
+### Snowpipe Iceberg System Columns
+
+The set of columns which has source data and file metadata information.
+
+* **SRC** - The data from the file is loaded into this string column.
+* **LOAD_TIMESTAMP** - Current timestamp when the file gets loaded.
+* **FILENAME** - Name of the staged data file the current row belongs to. Includes the full path to the data file.
+* **FILE_ROW_NUMBER** - Row number for each record in the staged data file.
+* **FILE_LAST_MODIFIED** - Last modified timestamp of the staged data file the current row belongs to
+* **SCAN_TIME** - Start timestamp of operation for each record in the staged data file. Returned as TIMESTAMP_LTZ.
+
+### Snowpipe Iceberg Deployment
+
+#### Snowpipe Iceberg Deployment Parameters
+
+The Snowpipe includes two environment parameters.The parameter `loadType` allows you to specify if you want to perform a full load or a reload based on the load type 
+when you are performing a Copy-Into operation.
+The another parameter `targetIntegrationOrAwsSNSTopic` allows you to specify the AWS SNS Topic or Integration name to be used for auto ingesting files from Clous providers
+
+The parameter name is `loadType` and the default value is ``.
+
+```json
+{
+    "loadType": ""
+}
+```
+
+When the parameter value is set to `Reload`, the data is reloaded into the table regardless of whether they’ve been loaded previously 
+and have not changed since they were loaded.
+
+The parameter name is targetIntegrationOrAwsSNSTopic and the default value is DEV ENVIRONMENT.
+
+When set to DEV ENVIRONMENT the value entered in the Snowpipe Options config AWS SNS TOpic/Integration is used for ingesting files from Cloud providers.
+
+```
+{
+    "targetIntegrationOrAwsSNSTopic": "DEV ENVIRONMENT"
+}
+```
+
+When set to any value other than DEV ENVIRONMENT the node will use the specified value for AWS SNS TOpic/Integration.
+
+For example, the Snowpipe node will use the specific value for auto ingestion.
+
+```
+{
+    "targetIntegrationOrAwsSNSTopic": "arn:aws:sqs:us-east-1:832620633027:sf-snowpipe-AIDA4DXAOTPB7IF437EPD-lZe8ciYpPqGgC9KwWLmiIQ"
+}
+```
+
+#### Snowpipe Iceberg Initial Deployment
+
+When deployed for the first time into an environment the Snowpipe node will execute the below stages depending on if Enable Snowpipe is enabled,'Load Historical Data' is enabled and the `loadType` parameter.
+
+| Deployment Behavior  | Enable Snowpipe | Historical Load | Load Type | Stages Executed |
+|--|--|---|--|--|
+| Initial Deployment | Enable Snowpipe |true| ``|Create Iceberg Table </br> Historical full load using CopyInto </br> Create Pipe </br> Alter Pipe 
+| Initial Deployment | Enable Snowpipe |true| Reload|Create table </br> Truncate Target table </br> Historical full load using CopyInto </br> Create Pipe </br> Alter Pipe
+| Initial Deployment | Enable Snowpipe |false| Reload or Empty|Create Iceberg table </br> Truncate Target table </br> Create Pipe
+| Initial Deployment | Test Copy Statement |false| Reload or Empty|Create Iceberg table </br> Test Copy Statement-No pipe creation
+
+### Snowpipe Iceberg Redeployment
+
+#### Altering the Snowpipe Iceberg node
+
+There are few column or table changes like Change in table name, Dropping existing column,  Alter Column data type, Adding a new column if made in isolation or all-together will result in an Create statement to modify the target Table in the target environment.Any table level changes or node config changes results in recreation of pipe
+
+The following stages are executed:
+
+* **Create Iceberg table|**: Create table statement is executed to perform the alter operation.
+* **Truncate target table**:The target table is truncated in case the Load Type parameter is set to 'Reload'
+* **Historical full load using CopyInto**:Historical data are loaded if 'Load Historical' toggle is on.
+* **Create Pipe**: Pipe is recreated if enable snowpipe option is true
+* **Alter Pipe**:Pipe is refreshed if 'Load Historical' toggle is on.
+
+### Snowpipe Iceberg Undeployment
+
+If the Snowpipe node is deleted from a Workspace, that Workspace is committed to Git and that commit deployed to a higher-level environment then the target table in the target environment will be dropped.
+
+This is executed in two stages:
+
+* **Drop Table**: Target table is dropped
+* **Drop Pipe**: Pipe is dropped
 
 ## Snowflake Iceberg table
 
