@@ -42,8 +42,12 @@ There are four configs within the **Node Properties** group.
 
 <h3 id="snowflake-iceberg-table-options">Iceberg Options</h3>
 
+* **Type of Catalog**:
+     * Snowflake
+     * Polaris
 * **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in snowflake as a prerequisite.
 * **Base location name**: The path to a directory where Snowflake can write data and metadata files for the table. Specify a relative path from the table’s EXTERNAL_VOLUME location.
+* **Catalog integration**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.This option is enbled if the type of catalog is Polaris
 * **Cluster key**: True/False to determine whether the Iceberg table is to be clustered or not. Setting it to True for the following options:
   * True: Allows you to specify the column based on which clustering is to be done.
     * Allow Expressions Cluster Key: True Allows to add an expression to the specified cluster key
@@ -276,6 +280,7 @@ There are four configs within the **Node Properties** group.
        * Snowflake
        * Polaris
 * **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite.
+* **Catalog integration**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.This option is enbled if the type of catalog is Polaris
 * **Base location name**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.
 * **Cluster Key**: Cluster key Toggle while Enabled allows us to create subset of columns in a table that are explicitly designated to co-locate the data in the table in the same micro-partitions
   * **Allow Expressions in Cluster Key**: Toggle while Enabled allows you to write expressions 
@@ -430,6 +435,7 @@ If the Copy-Into Iceberg node is deleted from a Workspace, that Workspace is com
 The Snowpipe Iceberg node type has five configurations groups:
 
 * [Snowpipe Iceberg Node Properties](#snowpipe-iceberg-node-properties)
+* [Snowpipe Iceberg Options](#snowpipe-iceberg-options)
 * [Snowpipe Iceberg Snowpipe Options](#snowpipe-iceberg-snowpipe-options)
 * [Snowpipe Iceberg File Location](#snowpipe-iceberg-file-location)
 * [Snowpipe Iceberg File Format](#snowpipe-iceberg-file-format)
@@ -453,6 +459,17 @@ The Snowpipe Iceberg node type has five configurations groups:
     * GCP -  Integration. Specifies the existing notification integration used to access the storage queue.
   * Test Copy Statement - To validate the Copy-into statement before we use it to create PIPE
 * **Load historical data**:Loads the historic data into the target table by executing a COPY_INTO statement.
+  
+<h3 id="snowpipe-iceberg-table-iceberg-options">Snowpipe Iceberg Table Iceberg Options</h3>
+
+* **Type of catalog**: Specify the type of catalog.
+       * Snowflake
+       * Polaris
+* **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite.
+* **Catalog integration**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.This option is enbled if the type of catalog is Polaris
+* **Base location name**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.
+* **Cluster Key**: Cluster key Toggle while Enabled allows us to create subset of columns in a table that are explicitly designated to co-locate the data in the table in the same micro-partitions
+  * **Allow Expressions in Cluster Key**: Toggle while Enabled allows you to write expressions 
 
 <h3 id="snowpipe-iceberg-file-location"> File Location </h3>
 
