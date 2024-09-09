@@ -559,7 +559,7 @@ select 1 = 0
 
                        CREATE OR REPLACE PIPE {{ fqPipeName }}  AUTO_INGEST = TRUE
                        {% if desiredState.parameters.targetIntegrationOrAwsSNSTopic == 'DEV ENVIRONMENT' and desiredState.config.cloudProvider == 'AWS' %}
-                            AWS_SNS_TOPIC = '{{ desiredState.config.awsSnsTopic }}'
+                            AWS_SNS_TOPIC = '{{desiredState.config.awsSnsTopic}}'
                        {% elif desiredState.parameters.targetIntegrationOrAwsSNSTopic == 'DEV ENVIRONMENT' and desiredState.config.cloudProvider != 'AWS'  %}
                             INTEGRATION = '{{ desiredState.config.integration }}'
 		               {% elif desiredState.parameters.targetIntegrationOrAwsSNSTopic != 'DEV ENVIRONMENT' and desiredState.config.cloudProvider == 'AWS' %}

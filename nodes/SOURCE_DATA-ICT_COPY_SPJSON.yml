@@ -1,26 +1,26 @@
 fileVersion: 1
-id: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
-name: ICT_COPY_JSONSP1
+id: 22b892f4-9948-4829-b187-e567543c86d3
+name: ICT_COPY_SPJSON
 operation:
   config:
-    awsSnsTopic: ""
-    basename: ictjson
+    awsSnsTopic: null
+    basename: ictjsoneg
+    catint: ""
     cloudProvider: AWS
-    clusterKey: true
+    clusterKey: false
     clusterKeyConfig:
       items:
         - {}
     clusterKeyConfigExpressions:
       items:
-        - columnNameExpressions:
-            columnCounter: 8141742e-ab9a-476c-b8f4-6fc829f1cc50
-            stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
-          sqlExpression: " trunc(TO_CHAR(\"LOAD_TIMESTAMP\"), -5)"
-    clusterKeyExpressions: true
+        - {}
+    clusterKeyExpressions: false
     compression: ""
     dateformat: ""
     enforceLength: ""
     errornumber: ""
+    externalURI: Enter external URI-Ex:s3://snowflake-docs
+    extlocation: false
     extvolume: sficebergextvol1
     fieldDelim: ","
     fieldEnclosed: \042
@@ -30,17 +30,24 @@ operation:
     fileNames: ""
     filePattern: "'.*.*[.]json'"
     fileType: JSON
-    flagLoadHistorical: false
+    flagLoadHistorical: true
     flagSnowpipe: Enable Snowpipe
-    integration: ""
+    forceLoad: ""
+    integration: null
+    intextstage: true
+    loadUncertainFiles: ""
     onError: ""
+    purgeBehavior: ""
     recDelim: |+
 
     replaceinvalidcharacters: false
-    skipBlankLines: true
+    returnFailedOnly: ""
+    sizeLimit: ""
+    skipBlankLines: false
     skipHeader: "1"
     stageName: spstagesample/
     stageStorageLocationName: TARGET_DB
+    storageintegration: ""
     stripouterarray: true
     tcatalog: Snowflake
     timeformat: ""
@@ -61,8 +68,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 666f9958-1e80-4618-8ee0-9a4c97ce7962
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: 3234cc7f-7c47-43d7-adc8-dc70a020aa61
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -78,8 +85,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 8141742e-ab9a-476c-b8f4-6fc829f1cc50
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: 7317c9fe-eebf-4c20-a656-61e02dce287a
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -95,8 +102,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 3377b87f-064a-4efc-a9a5-43b24f6faa47
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: fef4243c-b343-4a34-a972-1594f5802b8a
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -112,8 +119,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 93e9d02d-fa10-45c9-89d1-6d892e5418c5
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: 05bed86b-8f67-4a7d-b6f4-b184ee922d64
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: BIGINT
         defaultValue: ""
@@ -129,8 +136,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 46179ce4-16ac-4fa3-910b-f09d44f3b950
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: 5ce01c83-6cc2-43c6-8cf5-4b1dfc934cbc
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -146,8 +153,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: 609863cb-431f-4ed4-9d50-a6fc732ab814
-          stepCounter: 23c7f4f4-6458-4e83-8a51-ec51de70e84a
+          columnCounter: 8787e6cc-794e-4109-8a94-300dcdf90c5c
+          stepCounter: 22b892f4-9948-4829-b187-e567543c86d3
         config: {}
         dataType: TIMESTAMP_NTZ
         defaultValue: ""
@@ -167,9 +174,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_COPY_JSONSP1
+        name: ICT_COPY_SPJSON
         noLinkRefs: []
-  name: ICT_COPY_JSONSP1
+  name: ICT_COPY_SPJSON
   overrideSQL: false
   schema: ""
   sqlType: "321"
