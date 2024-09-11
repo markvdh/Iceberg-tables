@@ -1,3 +1,42 @@
+---
+title: "Iceberg Tables"
+description: "The Iceberg Tables Package provides tools to manage and deploy Iceberg tables in Snowflake or integrate with externally managed catalogs."
+---
+<!-- DO NOT EDIT MARKETPLACE LISTINGS DIRECTLY -->
+<!-- THIS LISTING IS RENDERED BY A TEMPLATE -->
+<!-- markdownlint-disable -->
+<!-- vale off -->
+
+<section class="package-page-wrapper">
+    <p class="view-all-link"><a href="/docs/marketplace">‹ View all packages</a></p>
+   <div class="package-metadata">
+        <div class="package-info-wrapper">
+            <dl class="package-info">
+                <dt>Latest Version:</dt>
+                <dd>1.1.0</dd>
+            </dl>
+            <dl class="package-info">
+                <dt>Release Date:</dt><dd>September 09, 2024</dd>
+            </dl>
+            <dl class="package-info">
+                <dt>Package ID:</dt>
+                <dd><code>@coalesce/iceberg-tables</code></dd>
+            </dl>
+        </div><div class="package-page-wrapper certified-package">
+            <span>Coalesce Certified Package</span>
+        </div></div>
+</section>
+
+## Overview
+The Iceberg Tables Package provides tools to manage and deploy Iceberg tables in Snowflake or integrate with externally managed catalogs.
+
+## Installation
+- Copy the Package ID <code>@coalesce/iceberg-tables</code>.
+- In Coalesce, open the Workspace where you wish to install the package.
+- Go to the Build Setting of the Workspace, tab Packages, and click the Install button on the top right of the page.
+- Paste the Package ID, and proceed with the installation process.
+
+## Description
 # Iceberg Tables Package
 
 The Iceberg Tables Package includes:
@@ -622,6 +661,7 @@ When deployed for the first time into an environment the Snowpipe node will exec
 | Initial Deployment | Enable Snowpipe |false| Reload or Empty|Create Iceberg table <br></br> Truncate Target table <br></br> Create Pipe
 | Initial Deployment | Test Copy Statement |false| Reload or Empty|Create Iceberg table <br></br> Test Copy Statement-No pipe creation
 
+
 ### Snowpipe Iceberg Redeployment
 
 #### Altering the Snowpipe Iceberg node
@@ -664,3 +704,29 @@ This is executed in two stages:
 
 *[Node definition](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/SnowpipeIcebergtable-321)
 *[Create Template](https://github.com/coalesceio/Iceberg-tables/tree/main/nodeTypes/SnowpipeIcebergtable-321)
+
+
+## Versions
+Available versions of the package.
+<table>
+    <thead>
+        <tr>
+            <th>Version #</th>
+            <th>Release Date</th>
+            <th>Notes</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+            <td>1.1.0</td>
+            <td>September 09, 2024</td>
+            <td><pre style={{ backgroundColor: 'transparent' }}><code>{` Support for Polaris Catalog added.Two new node types Copy-Into Iceberg and Snowpipe Iceberg added `}</code></pre>
+            </td>
+        </tr><tr>
+            <td>1.0.0</td>
+            <td>August 07, 2024</td>
+            <td><pre style={{ backgroundColor: 'transparent' }}><code>{` Node types to create Snowflake and external iceberg tables `}</code></pre>
+            </td>
+        </tr></tbody>
+</table>
+# Support
+If you need help, please see our <a href="https://docs.coalesce.io/docs/coalesce-packages" target="_self">support section</a> or contact us.
