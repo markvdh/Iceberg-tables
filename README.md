@@ -530,7 +530,7 @@ The Snowpipe Iceberg node type has five configurations groups:
 
 <h3 id="snowpipe-iceberg-copy-options"> Copy Options </h3>
 
-    {![snowpipe-iceberg-copy-options](https://github.com/user-attachments/assets/ae640901-16ce-4ed2-8e6c-efae278d3942)} 
+![snowpipe-iceberg-copy-options](https://github.com/user-attachments/assets/ae640901-16ce-4ed2-8e6c-efae278d3942)
 
 If you toggle Enable Snowipe under Snowpipe Options to *ON*, these configuration options are available.
 
@@ -617,10 +617,10 @@ When deployed for the first time into an environment the Snowpipe node will exec
 
 | Deployment Behavior  | Enable Snowpipe | Historical Load | Load Type | Stages Executed |
 |--|--|---|--|--|
-| Initial Deployment | Enable Snowpipe |true| ``|Create Iceberg Table </br> Historical full load using CopyInto </br> Create Pipe </br> Alter Pipe 
-| Initial Deployment | Enable Snowpipe |true| Reload|Create table </br> Truncate Target table </br> Historical full load using CopyInto </br> Create Pipe </br> Alter Pipe
-| Initial Deployment | Enable Snowpipe |false| Reload or Empty|Create Iceberg table </br> Truncate Target table </br> Create Pipe
-| Initial Deployment | Test Copy Statement |false| Reload or Empty|Create Iceberg table </br> Test Copy Statement-No pipe creation
+| Initial Deployment | Enable Snowpipe |true| ``|Create Iceberg Table <br></br> Historical full load using CopyInto <br></br> Create Pipe <br></br> Alter Pipe 
+| Initial Deployment | Enable Snowpipe |true| Reload|Create table <br></br> Truncate Target table <br></br> Historical full load using CopyInto <br></br> Create Pipe <br></br> Alter Pipe
+| Initial Deployment | Enable Snowpipe |false| Reload or Empty|Create Iceberg table <br></br> Truncate Target table <br></br> Create Pipe
+| Initial Deployment | Test Copy Statement |false| Reload or Empty|Create Iceberg table <br></br> Test Copy Statement-No pipe creation
 
 ### Snowpipe Iceberg Redeployment
 
