@@ -246,14 +246,14 @@ If a task is part of a DAG of tasks the DAG needs to include a node type called 
 
        An Iceberg table uses the Apache Iceberg open table format specification, which provides an abstraction layer on data files stored in open formats. [Iceberg tables](https://docs.snowflake.com/en/user-guide/tables-iceberg) for Snowflake combine the performance and query semantics of regular Snowflake tables with external cloud storage that you manage. They are ideal for existing data lakes that you cannot, or choose not to, store in Snowflake.
        
-### Copy-Into Iceberg Table Prerequisites
+### Key points to use Copy-Into Iceberg Table 
 
     * The Role in the Workspace and Environment properties of Coalesce should be `ACCOUNTADMIN` inorder to successfully create an  Iceberg table. You can also grant `SYSADMIN` roles to `EXTERNAL VOLUME`, `CATALOG INTEGRATION`created.
     * An `EXTERNAL VOLUME`, `CATALOG INTEGRATION` is expected to be created in Snowflake at the Storage Location chosen in the Node properties.
     * In case of creating a Snowflake Iceberg table with structured column type like `OBJECT`, `MAP` or `ARRAY`. Ensure the data type is updated with the appropriate structure. For example,the source Snowflake table has OBJECT data type,then the data type of the same column in the Iceberg table node added on top is expected to structured type OBJECT (age string,id number) based on the data it has.
     * CopyInto node can be created by just clicking on Create node from browser if we want the data from the file to be loaded into single string column in target table.Ensure to change the data type of the column to structured object to derive the columns in further steps.
     * CopyInto node can be added on top of an inferred table(table created by running the inferschema node) if you want to load data into specific columns as defined in the files.Refer to [Inferschema](https://github.com/coalesceio/External-Data-Package/blob/main/README.md#inferschema) to know more on how to use the node and add Copy-Into on top of it.
-
+    *  The data can be reloaded into the table by truncating the data in the table before load using the TruncateBefore option in node config or reload parameter
 
 ### Copy-Into Iceberg Table Configuration
 
@@ -284,6 +284,9 @@ There are four configs within the **Node Properties** group.
 * **Snowflake EXTERNAL VOLUME name**: Specifies the identifier (name) for the external volume where the Iceberg table stores its metadata files and data in Parquet format. [External volume](https://docs.snowflake.com/sql-reference/sql/create-external-volume) needs to be created in Snowflake as a prerequisite.
 * **Catalog integration**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.This option is enbled if the type of catalog is Polaris
 * **Base location name**: Specifies the identifier (name) of the [catalog integration](https://docs.snowflake.com/user-guide/tables-iceberg#label-tables-iceberg-catalog-integration-def) for this table.
+* **TruncateBefore**: True / False toggle that determines whether or not a table is to be truncated before reloading
+     * True - Table is truncated and Copy-Into statement is executed to reload the data into target table
+     * False - Data is loaded directly into target table and no truncate action takes place.
 * **Cluster Key**: Cluster key Toggle while Enabled allows us to create subset of columns in a table that are explicitly designated to co-locate the data in the table in the same micro-partitions
   * **Allow Expressions in Cluster Key**: Toggle while Enabled allows you to write expressions 
   
@@ -380,6 +383,7 @@ The set of columns which has source data and file metadata information.
 #### Copy-Into Iceberg Deployment Parameters
 
 The Copy-Into Iceberg includes an environment parameter that allows you to specify if you want to perform a full load or a reload based on the load type when you are performing a copy-into-iceberg operation.
+Alternatively, the data can be reloaded into the table by truncating the data in the table before load using the TruncateBefore option in node config.
 
 The parameter name is `loadType` and the default value is ``.
 
