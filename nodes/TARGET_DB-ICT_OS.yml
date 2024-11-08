@@ -7,13 +7,32 @@ operation:
     catdb: test_de
     catint: gluecatalogtest
     cattable: test_iceberg
+    clusterKey: false
     extvolume: glueextvol
+    fieldDelim: null
+    fieldEnclosed: null
+    fileFormatLoc: null
+    fileFormatName: null
+    fileFormatType: File Format Name
+    fileNames: null
+    filePattern: null
+    fileType: null
+    flagLoadHistorical: false
+    flagSnowpipe: null
     metafilepath: metafilepath/
+    recDelim: null
+    replaceinvalidcharacters: false
     schedulePeriod: "6000"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     schrefresh: true
+    skipBlankLines: false
+    skipHeader: null
+    stageName: null
+    stageStorageLocationName: null
+    stripouterarray: false
     tcatalog: AWS Glue
+    trimSpace: false
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true
@@ -55,7 +74,7 @@ operation:
   name: ICT_OS
   overrideSQL: false
   schema: ""
-  sqlType: "307"
+  sqlType: "321"
   type: sql
   version: 1
 type: Node
