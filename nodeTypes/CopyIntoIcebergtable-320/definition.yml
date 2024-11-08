@@ -26,7 +26,7 @@ metadata:
           - Snowflake
           - Polaris
         isRequired: true
-     
+
       - displayName: Snowflake EXTERNAL VOLUME Name
         attributeName: extvolume
         type: textBox
@@ -43,6 +43,12 @@ metadata:
         attributeName: catint
         type: textBox
         enableIf: "{% if config.tcatalog == 'Polaris'  %} true {% else %} false {% endif %}"
+
+      - displayName: Truncate Before
+        attributeName: truncateBefore
+        type: toggleButton
+        default: false
+
 
       - type: toggleButton
         attributeName: clusterKey
