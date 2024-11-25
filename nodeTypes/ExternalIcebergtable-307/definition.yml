@@ -11,6 +11,7 @@ metadata:
     tagColor: '#EB3562'
 
     deployStrategy: advanced
+    isColumnResyncEnabled: true
 
     config:
 
@@ -142,9 +143,9 @@ metadata:
       items:
       - displayName: Type
         type: materializationSelector
-        default: task
+        default: external iceberg table
         options:
-        - task
+        - external iceberg table
         isRequired: false
 
     systemColumns:

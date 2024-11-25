@@ -1,26 +1,29 @@
 fileVersion: 1
-id: 14cadfe0-1abe-475c-b316-78392ffea76d
-name: ICT_OS
+id: 62ba9cf8-f6f9-48bc-bbee-31401c1dac3d
+name: ICT_NODEEX
 operation:
   config:
-    basename: locname
-    catdb: test_deex
+    catdb: my_cat_table
     catint: icebergCatalogInt12
-    cattable: test_iceberg
+    cattable: my_cat_table
     extvolume: sficebergextvol1
     metafilepath: ICTJSON/metadata/00001-02f36927-b4ed-4a6a-a9ae-f92fdb21a196.metadata.json
-    schedulePeriod: "6000"
-    schedulePeriodOption: Minutes
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
     schedulingMode: Warehouse Task
-    schrefresh: true
+    schrefresh: false
+    serverlessSize: MEDIUM
     tcatalog: Object storage
-    whName: COMPUTE_WH
+    whName: <WAREHOUSE_NAME>
   database: ""
   deployEnabled: true
   description: ""
   isMultisource: false
-  locationName: TARGET_DB
-  materializationType: table
+  locationName: SOURCE_DATA
+  materializationType: external iceberg table
   metadata:
     appliedNodeTests: []
     columns:
@@ -29,8 +32,8 @@ operation:
           values: []
         appliedColumnTests: {}
         columnReference:
-          columnCounter: c2cc7c06-9793-4f64-9aed-ae3d932b48fc
-          stepCounter: 14cadfe0-1abe-475c-b316-78392ffea76d
+          columnCounter: a8b17725-4432-4825-a4b8-1ab26d00ca97
+          stepCounter: 62ba9cf8-f6f9-48bc-bbee-31401c1dac3d
         config: {}
         dataType: STRING
         defaultValue: ""
@@ -50,9 +53,9 @@ operation:
         dependencies: []
         join:
           joinCondition: ""
-        name: ICT_OS
+        name: ICT_NODEEX
         noLinkRefs: []
-  name: ICT_OS
+  name: ICT_NODEEX
   overrideSQL: false
   schema: ""
   sqlType: "307"
