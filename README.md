@@ -145,7 +145,7 @@ If schedule refresh mode is set to true then Task Scheduling Options can be used
 
 ### External Iceberg Table System Columns
 
-**DATA** - Column added for deployment but column is not added to iceberg table as columns specifications are not required for External Iceberg tables.
+**DATA** - Column added for deployment but column is not added to iceberg table as columns specifications are not required for External Iceberg tables.The exact columns are refreshed in the mapping grid using **Re-Sync Columns** button in the top right corner in mapping grid.The other option to refresh columns is by using [API-NODEUPDATE](https://github.com/coalesceio/External-Data-Package/blob/main/README.md#API-NODEUPDATE) node type.
 
 ### External Iceberg Table With Task Deployment Parameters
 
