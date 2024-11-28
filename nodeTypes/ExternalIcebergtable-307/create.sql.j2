@@ -58,7 +58,7 @@ select 1 = 0
 
         
     
-         {{ stage('Create Iceberg Table', true, "sql", "alter") }}
+         {{ stage('Create Iceberg Table', true, "sql", "create") }}
          
          CREATE OR REPLACE ICEBERG TABLE {{ ref_no_link(desiredState.node.location.name, desiredState.node.name) }}
 
