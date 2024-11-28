@@ -11,6 +11,7 @@ metadata:
     tagColor: '#EB3562'
 
     deployStrategy: advanced
+    isColumnResyncEnabled: true
 
     config:
 

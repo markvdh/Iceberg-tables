@@ -4,35 +4,16 @@ name: ICT_OS
 operation:
   config:
     basename: locname
-    catdb: test_de
-    catint: gluecatalogtest
+    catdb: test_deex
+    catint: icebergCatalogInt12
     cattable: test_iceberg
-    clusterKey: false
-    extvolume: glueextvol
-    fieldDelim: null
-    fieldEnclosed: null
-    fileFormatLoc: null
-    fileFormatName: null
-    fileFormatType: File Format Name
-    fileNames: null
-    filePattern: null
-    fileType: null
-    flagLoadHistorical: false
-    flagSnowpipe: null
-    metafilepath: metafilepath/
-    recDelim: null
-    replaceinvalidcharacters: false
+    extvolume: sficebergextvol1
+    metafilepath: ICTJSON/metadata/00001-02f36927-b4ed-4a6a-a9ae-f92fdb21a196.metadata.json
     schedulePeriod: "6000"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     schrefresh: true
-    skipBlankLines: false
-    skipHeader: null
-    stageName: null
-    stageStorageLocationName: null
-    stripouterarray: false
-    tcatalog: AWS Glue
-    trimSpace: false
+    tcatalog: Object storage
     whName: COMPUTE_WH
   database: ""
   deployEnabled: true

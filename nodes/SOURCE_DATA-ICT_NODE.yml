@@ -3,7 +3,7 @@ id: 919b5ec6-b262-4bda-ac55-d1eef767efc8
 name: ICT_NODE
 operation:
   config:
-    catdb: ""
+    catdb: extnode
     catint: iceberg_glue_catalog
     cattable: glue_iceberg_table
     extvolume: iceberg_glue_external_volume
@@ -16,7 +16,7 @@ operation:
     schedulingMode: Warehouse Task
     schrefresh: false
     serverlessSize: XSMALL
-    tcatalog: AWS Glue
+    tcatalog: Object storage
     whName: compute_wh
   database: ""
   deployEnabled: true
