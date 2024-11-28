@@ -1,0 +1,123 @@
+fileVersion: 1
+id: dd2d0832-2138-4faf-adb4-18756ee3eafa
+name: EXT_ICT_TASK
+operation:
+  config:
+    catdb: my_cat_table
+    catint: icebergCatalogInt12
+    cattable: my_cat_table
+    extvolume: sficebergextvol1
+    metafilepath: Productict/metadata/00001-4176d45f-0365-49a7-aa18-84149c397844.metadata.json
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "600"
+    schedulePeriodOption: Minutes
+    schedulingMode: Serverless Task
+    schrefresh: true
+    serverlessSize: MEDIUM
+    tcatalog: Object storage
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: SOURCE_DATA
+  materializationType: external iceberg table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 557e3150-eb1d-412e-accf-116b6c50d14b
+          stepCounter: dd2d0832-2138-4faf-adb4-18756ee3eafa
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: PRODUCT_ID
+        nullable: false
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 052a432b-33fe-45c8-9feb-69d4132239b7
+          stepCounter: dd2d0832-2138-4faf-adb4-18756ee3eafa
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: PRODUCT_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 77dee6ce-8945-47ea-8375-46ffd2dc475e
+          stepCounter: dd2d0832-2138-4faf-adb4-18756ee3eafa
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: BRAND
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 01976c31-c506-40db-82ae-6d5853a3217a
+          stepCounter: dd2d0832-2138-4faf-adb4-18756ee3eafa
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: COLOUR
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: EXT_ICT_TASK
+        noLinkRefs: []
+  name: EXT_ICT_TASK
+  overrideSQL: false
+  schema: ""
+  sqlType: "307"
+  type: sql
+  version: 1
+type: Node

@@ -111,7 +111,7 @@ select 1 = 0
                 ALTER TASK {{ fullyQualifiedRootTaskName }} SUSPEND
             {%- endif -%}
 
-            {{ stage('Create Task', true, "sql", "alter") }}
+            {{ stage('Create Task', true, "sql", "create") }}
             {# Set Namespace Variables #}
             {% set nsVariables = namespace(taskWhenRun="") %}
             {% set nsVariables = namespace(poll="WHEN ") %}
@@ -167,7 +167,7 @@ select 1 = 0
 
 
             {%- if desiredState.config.schedulePeriodOption != 'Predecessor' -%} 
-                {{ stage('Resume Task', true, "sql", "alter") }}
+                {{ stage('Resume Task', true, "sql", "create") }}
                 ALTER TASK {{ fullyQualifiedTaskName }} RESUME;
             {%- endif -%}
 
