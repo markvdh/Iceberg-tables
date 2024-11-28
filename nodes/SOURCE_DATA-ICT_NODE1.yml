@@ -1,23 +1,23 @@
 fileVersion: 1
-id: 95fe1bf6-b91c-4f81-ab6f-a609c5a05d47
+id: 692d5021-530d-401f-a7e4-ad9e9a033c60
 name: ICT_NODE1
 operation:
   config:
-    catdb: my_cat_table
-    catint: ""
-    cattable: my_cat_table
-    extvolume: my_ext_vol
+    catdb: ""
+    catint: iceberg_glue_catalog
+    cattable: glue_iceberg_table
+    extvolume: iceberg_glue_external_volume
     metafilepath: metafilepath/
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
     schedulePeriod: "60"
-    schedulePeriodOption: Predecessor
+    schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
     schrefresh: false
-    serverlessSize: MEDIUM
+    serverlessSize: XSMALL
     tcatalog: AWS Glue
-    whName: <WAREHOUSE_NAME>
+    whName: compute_wh
   database: ""
   deployEnabled: true
   description: ""
@@ -27,23 +27,34 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 5e600a84-af20-4990-8c1a-c974a7a78b37
-          stepCounter: 95fe1bf6-b91c-4f81-ab6f-a609c5a05d47
+          columnCounter: cfb88e28-be79-448e-8482-b62aebd99ed3
+          stepCounter: 692d5021-530d-401f-a7e4-ad9e9a033c60
         config: {}
-        dataType: STRING
-        defaultValue: ""
+        dataType: NUMBER(10,0)
         description: ""
-        dummycolumn: true
-        name: DATA
+        name: COL1
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: This column is not part of target iceberg table
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
+      - appliedColumnTests: {}
+        columnReference:
+          columnCounter: 54105dba-9e82-4d16-98c0-b1be5faa6b50
+          stepCounter: 692d5021-530d-401f-a7e4-ad9e9a033c60
+        config: {}
+        dataType: VARCHAR(16777216)
+        description: ""
+        name: COL2
+        nullable: true
+        sourceColumnReferences:
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:

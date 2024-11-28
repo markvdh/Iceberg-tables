@@ -142,9 +142,9 @@ metadata:
       items:
       - displayName: Type
         type: materializationSelector
-        default: task
+        default: external iceberg table
         options:
-        - task
+        - external iceberg table
         isRequired: false
 
     systemColumns:

@@ -14,7 +14,7 @@ operation:
     schedulePeriod: "60"
     schedulePeriodOption: Minutes
     schedulingMode: Warehouse Task
-    schrefresh: true
+    schrefresh: false
     serverlessSize: XSMALL
     tcatalog: AWS Glue
     whName: compute_wh
@@ -27,23 +27,20 @@ operation:
   metadata:
     appliedNodeTests: []
     columns:
-      - acceptedValues:
-          strictMatch: true
-          values: []
-        appliedColumnTests: {}
+      - appliedColumnTests: {}
         columnReference:
-          columnCounter: 0e80361c-3e9e-4ede-ba7a-c3b5cae523ed
+          columnCounter: 71417a10-82cd-47d7-a443-63cb2d3f6523
           stepCounter: 919b5ec6-b262-4bda-ac55-d1eef767efc8
         config: {}
-        dataType: STRING
-        defaultValue: ""
+        dataType: ""
         description: ""
-        dummycolumn: true
         name: DATA
         nullable: true
         sourceColumnReferences:
-          - columnReferences: []
-            transform: This column is not part of target iceberg table
+          - columnReferences:
+              - columnCounter: "0"
+                stepCounter: "0"
+            transform: ""
     cteString: ""
     enabledColumnTestIDs: []
     sourceMapping:
