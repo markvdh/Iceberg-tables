@@ -11,7 +11,7 @@ operation:
     predTask: DATA_TRANSFORMATION_ROOT_TASK
     rootTask: DATA_TRANSFORMATION_ROOT_TASK
     scheduleCRON: 5 0-23 * * * America/Los_Angeles
-    schedulePeriod: "600"
+    schedulePeriod: "6000"
     schedulePeriodOption: Minutes
     schedulingMode: Serverless Task
     schrefresh: true
