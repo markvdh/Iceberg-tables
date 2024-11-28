@@ -1,0 +1,218 @@
+fileVersion: 1
+id: 064a2dcf-5b02-4981-9de9-87ec552764f4
+name: EXT_ICT_CUST
+operation:
+  config:
+    catdb: my_cat_table
+    catint: icebergCatalogInt12
+    cattable: my_cat_table
+    extvolume: sficebergextvol1
+    metafilepath: CUST/metadata/00000-7f231169-964c-4cf4-a929-b94eb570b404.metadata.json
+    predTask: DATA_TRANSFORMATION_ROOT_TASK
+    rootTask: DATA_TRANSFORMATION_ROOT_TASK
+    scheduleCRON: 5 0-23 * * * America/Los_Angeles
+    schedulePeriod: "60"
+    schedulePeriodOption: Predecessor
+    schedulingMode: Warehouse Task
+    schrefresh: false
+    serverlessSize: MEDIUM
+    tcatalog: Object storage
+    whName: <WAREHOUSE_NAME>
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: external iceberg table
+  metadata:
+    appliedNodeTests: []
+    columns:
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: c3f6c39f-8a28-4cd8-91e0-5dc0142b5eb7
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: C_CUSTKEY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 3a476ea8-7668-4c24-bb56-30987581e5a1
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: C_NAME
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: e9759e42-b341-4d48-9d3b-6c5e43565596
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: C_ADDRESS
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: ed2c8f86-2b95-4f29-8e92-f636a7510c0e
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: NUMBER(38,0)
+        defaultValue: ""
+        description: ""
+        name: C_NATIONKEY
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 47386da3-83d5-417d-a660-92742a19950a
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: C_PHONE
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: cd6e9f3a-e21d-4532-8aca-50fc272c54c5
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: NUMBER(12,2)
+        defaultValue: ""
+        description: ""
+        name: C_ACCTBAL
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 76561d78-a7ae-42a3-876d-d3c3adc53d31
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: C_MKTSEGMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 2d82d61e-eec7-4162-8f5d-43f4ff7003e1
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: VARCHAR(16777216)
+        defaultValue: ""
+        description: ""
+        name: C_COMMENT
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+      - acceptedValues:
+          strictMatch: true
+          values: []
+        appliedColumnTests: {}
+        columnReference:
+          columnCounter: 49a9efe9-3732-4408-be00-39a329c3c831
+          stepCounter: 064a2dcf-5b02-4981-9de9-87ec552764f4
+        config: {}
+        dataType: TIMESTAMP_NTZ(6)
+        defaultValue: ""
+        description: ""
+        name: C_LOAD_TIMESTAMP
+        nullable: true
+        primaryKey: false
+        sourceColumnReferences:
+          - columnReferences: []
+            transform: ""
+        transform: ""
+        uniqueKey: false
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: EXT_ICT_CUST
+        noLinkRefs: []
+  name: EXT_ICT_CUST
+  overrideSQL: false
+  schema: ""
+  sqlType: "307"
+  type: sql
+  version: 1
+type: Node
