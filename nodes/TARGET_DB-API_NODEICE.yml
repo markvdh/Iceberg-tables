@@ -1,0 +1,39 @@
+fileVersion: 1
+id: a8fc88da-13ae-4a8b-8fa5-18a3756d3533
+name: API_NODEICE
+operation:
+  config:
+    api: COALESCE_API_TOKEN
+    extIntegration: COALESCE_INT
+    nodeconfig:
+      items:
+        - nodename: ICT_NODEEX
+          storageLocation: ANANDHIS_DEV.TARGET
+          wksID: "301"
+  database: ""
+  deployEnabled: true
+  description: ""
+  isMultisource: false
+  locationName: TARGET_DB
+  materializationType: table
+  metadata:
+    appliedNodeTests: []
+    columns: []
+    cteString: ""
+    enabledColumnTestIDs: []
+    sourceMapping:
+      - aliases: {}
+        customSQL:
+          customSQL: ""
+        dependencies: []
+        join:
+          joinCondition: ""
+        name: API_NODEICE
+        noLinkRefs: []
+  name: API_NODEICE
+  overrideSQL: false
+  schema: ""
+  sqlType: "378"
+  type: sql
+  version: 1
+type: Node
